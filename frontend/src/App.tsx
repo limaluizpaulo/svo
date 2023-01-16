@@ -23,34 +23,37 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cadastro from "./components/Cadastro";
+import { CadastroProvider } from "./context/cadastro";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<LayoutDashboard />}>
-        <Route index element={<Home />} />
-        <Route path="/falecidos" element={<Falecidos />} />
-        <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/edit-product/:id" element={<EditProduct />} />
-        <Route path="/viaturas" element={<Viaturas />} />
-        <Route path="/atendentes" element={<Atendentes />} />
-        <Route path="/medicos" element={<Medicos />} />
-        <Route path="/motoristas" element={<Motoristas />} />
-        <Route path="/familiares" element={<Familiares />} />
-        <Route path="/hospitais" element={<Hospitais />} />
-        <Route path="/declaracoes" element={<Declaracoes />} />
-        <Route path="/ocorrencias" element={<Ocorrencias />} />
-        <Route path="/add-ocorrencia" element={<Cadastro />} />
-        <Route path="/escrivaes" element={<Escrivaes />} />
-        <Route path="/delegacias" element={<Delegacias />} />
-        <Route path="/agentes" element={<Agentes />} />
-        <Route path="/enderecos" element={<Enderecos />} />
+    <CadastroProvider>
+      <Routes>
+        <Route path="/" element={<LayoutDashboard />}>
+          <Route index element={<Home />} />
+          <Route path="/falecidos" element={<Falecidos />} />
+          <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/edit-product/:id" element={<EditProduct />} />
+          <Route path="/viaturas" element={<Viaturas />} />
+          <Route path="/atendentes" element={<Atendentes />} />
+          <Route path="/medicos" element={<Medicos />} />
+          <Route path="/motoristas" element={<Motoristas />} />
+          <Route path="/familiares" element={<Familiares />} />
+          <Route path="/hospitais" element={<Hospitais />} />
+          <Route path="/declaracoes" element={<Declaracoes />} />
+          <Route path="/ocorrencias" element={<Ocorrencias />} />
+          <Route path="/add-ocorrencia" element={<Cadastro />} />
+          <Route path="/escrivaes" element={<Escrivaes />} />
+          <Route path="/delegacias" element={<Delegacias />} />
+          <Route path="/agentes" element={<Agentes />} />
+          <Route path="/enderecos" element={<Enderecos />} />
 
 
-      </Route>
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
-    </Routes>
+        </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+      </Routes>
+    </CadastroProvider>
   );
 }
 

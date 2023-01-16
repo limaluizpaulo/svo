@@ -7,6 +7,56 @@ import {
 } from "react";
 import api from "../api/server";
 
+interface Ocorrencias {
+    id: string;
+    numeroControle: string;
+    ano: string;
+    protocolo: string;
+    tipoLocal: string;
+    numeroBO: string;
+    anoBO: string;
+    dataHoraChamado: string;
+    dataHoraEntrada: string;
+    dataHoraLiberacao: string;
+    atendente_id: string;
+    endereco_id: string;
+    delegacia_id: string;
+    natureza: number;
+    falecido_id: string;
+    familiar_id: string;
+    motorista_id: string;
+    agente_id: string;
+    viatura_id: string;
+    escrivao_id: string;
+    medico_id: string;
+}
+
+interface Falecidos {
+    id: number;
+    nome: string;
+    obitoFetal: number;
+    rgOuRne: string;
+    cpf: string;
+    nomeDoPai: string;
+    nomeDaMae: string;
+    naturalidade: string;
+    nacionalidade: string;
+    sexo: string;
+    racaCor: string;
+    dataNascimento: string;
+    idade: number;
+    estadoCivil: string;
+    profissao: string;
+}
+
+interface OcorrenciasData {
+    data: [Ocorrencias]
+}
+
+interface FalecidosData {
+    data: [Falecidos]
+}
+
 interface CadastroContextData {
     tipoLocal: number;
     setTipoLocal: (tipoLocal: number) => void;
@@ -44,8 +94,10 @@ interface CadastroContextData {
     setComplementoDP: (complementoDP: string) => void;
     cepDP: string;
     setCepDP: (cepDP: string) => void;
-    ocorrencias: any;
-    setOcorrencias: (ocorrencias: any) => void;
+    ocorrencias: Array<Ocorrencias>;
+    setOcorrencias: (ocorrencias: Array<Ocorrencias>) => void;
+    falecidos: Array<Falecidos>;
+    setFalecidos: (falecidos: Array<Falecidos>) => void;
     protocolo: number;
     setProtocolo: (protocolo: number) => void;
     ruaFalecido: string;
@@ -62,14 +114,18 @@ interface CadastroContextData {
     setComplementoFalecido: (complementoFalecido: string) => void;
     cepFalecido: string;
     setCepFalecido: (cepFalecido: string) => void;
-    numeroDaOcorrencia: number;
-    setNumeroDaOcorrencia: (numeroDaOcorrencia: number) => void;
+    numeroDaOcorrencia: string;
+    setNumeroDaOcorrencia: (numeroDaOcorrencia: string) => void;
     anoOcorrencia: number;
     setAnoOcorrencia: (anoOcorrencia: number) => void;
     dataOcorrencia: string;
     setDataOcorrencia: (dataOcorrencia: string) => void;
     natureza: string;
     setNatureza: (natureza: string) => void;
+    boletim: string;
+    setBoletim: (boletim: string) => void;
+    anoBoletim: number;
+    setAnoBoletim: (anoBoletim: number) => void;
 }
 
 
@@ -80,12 +136,14 @@ interface CadastroProviderProps {
 const CadastroContext = createContext({} as CadastroContextData);
 
 export function CadastroProvider({ children }: CadastroProviderProps) {
-    const [ocorrencias, setOcorrencias] = useState([]);
+    const [ocorrencias, setOcorrencias] = useState<any>([]);
+    const [falecidos, setFalecidos] = useState<Falecidos[]>([]);
     const [protocolo, setProtocolo] = useState(0);
-    const [numeroDaOcorrencia, setNumeroDaOcorrencia] = useState(0);
+    const [numeroDaOcorrencia, setNumeroDaOcorrencia] = useState("");
     const [dataOcorrencia, setDataOcorrencia] = useState("");
     const [natureza, setNatureza] = useState("");
-    // ano atual
+    const [boletim, setBoletim] = useState("");
+    const [anoBoletim, setAnoBoletim] = useState(0);
     const [anoOcorrencia, setAnoOcorrencia] = useState(0);
 
     const [tipoLocal, setTipoLocal] = useState(0);
@@ -150,8 +208,15 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
     }
 
     async function getOcorrencias() {
-        const { data } = await api("/ocorrencias");
+        const { data }: OcorrenciasData = await api("/ocorrencias");
         setOcorrencias(data);
+    }
+
+    async function getFalecidos() {
+        const { data }: FalecidosData = await api(
+            `/falecidos`
+        );
+        setFalecidos(data);
     }
 
     function getProtocolo() {
@@ -159,17 +224,24 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
     }
 
     function getNumeroDaOcorrencia() {
-        setNumeroDaOcorrencia(ocorrencias.length + 1);
-        setAnoOcorrencia(new Date().getFullYear());
+        // precisa atualizar apos recuperar as informações do banco
+        // a informação deve vir do numero da ultima ocorrencia + 1 não do tamanho do array
+
+
+        setNumeroDaOcorrencia(("0000" + (ocorrencias.length + 1)).slice(-4));
+        setAnoOcorrencia(Number(new Date().getFullYear().toString().substring(2)));
+        setAnoBoletim(Number(new Date().getFullYear().toString().substring(2)));
     }
 
     useEffect(() => {
         getOcorrencias();
+        getFalecidos();
     }, []);
 
     useEffect(() => {
         getProtocolo();
         getNumeroDaOcorrencia();
+
     }, [ocorrencias]);
 
     useEffect(() => {
@@ -252,6 +324,11 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
                 setDataOcorrencia,
                 natureza,
                 setNatureza,
+                boletim,
+                setBoletim,
+                anoBoletim,
+                falecidos,
+
             }}
         >
             {children}

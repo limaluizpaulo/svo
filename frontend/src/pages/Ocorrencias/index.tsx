@@ -1,50 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/server";
+import moment from 'moment';
+import { useCadastro } from "../../context/cadastro";
 
-
-
-
-
-interface Ocorrencias {
-  id: string;
-  numeroControle: string;
-  ano: string;
-  protocolo: string;
-  tipoLocal: string;
-  numeroBO: string;
-  anoBO: string;
-  dataHoraChamado: string;
-  dataHoraEntrada: string;
-  dataHoraLiberacao: string;
-  atendente_id: string;
-  endereco_id: string;
-  delegacia_id: string;
-  natureza: string;
-  falecido_id: string;
-  familiar_id: string;
-  motorista_id: string;
-  agente_id: string;
-  viatura_id: string;
-  escrivao_id: string;
-  medico_id: string;
-}
 
 export default function Ocorrencias() {
-  const thead = ["#", "Controle", "Ano", "Protocolo", "Tipo Local", "BO", "Ano BO", "Data Hora Chamado", "Data Hora Entrada", "Data Hora Liberação", "Ações"];
-  const [data, setData] = useState<Ocorrencias[]>([]);
+  const thead = ["#", "IML", "Nome", "BO", "Data Hora Chamado", "Status", "Ações"];
+  const { ocorrencias, falecidos } = useCadastro()
 
-  async function getData() {
-
-    const result: Ocorrencias[] = await api(
-      `/ocorrencias`
-    );
-    setData(result.data);
+  function getFalecido(id: number) {
+    const falecido = falecidos.find((falecido) => falecido.id === id);
+    return falecido?.nome;
   }
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   async function deleteData(id: string) {
     await api(`/falecidos/${id}`, {
@@ -54,7 +22,18 @@ export default function Ocorrencias() {
       },
     });
     alert("Data deleted");
-    await getData();
+    // window.location.reload();
+  }
+
+  function getStatus(entrada: string, liberacao: string) {
+    if (entrada) {
+      return <button className="btn btn-sm btn-primary">{`Chegou dia ${moment(entrada).format("DD/MM")}
+       às ${moment(entrada).format("HH:mm")}`}</button>;
+    } else if (liberacao) {
+      return <button className="btn btn-sm btn-success">Liberado</button>;
+    } else {
+      return <button className="btn btn-sm btn-warning">Não Chegou</button>;
+    }
   }
 
   return (
@@ -78,18 +57,14 @@ export default function Ocorrencias() {
           </tr>
         </thead>
         <tbody>
-          {data.map((data, index) => (
+          {ocorrencias.map((data, index) => (
             <tr key={data.id}>
-              <th scope="row">{index + 1}</th>
-              <td>{data.numeroControle}</td>
-              <td>{data.ano}</td>
-              <td>{data.protocolo}</td>
-              <td>{data.tipoLocal}</td>
+              <th scope="row">{data.numeroControle}/{data.ano.toString().substring(2)}</th>
+              <td>{data.natureza === 1 ? "SVO" : "IML"}</td>
+              <td>{getFalecido(Number(data.falecido_id))}</td>
               <td>{data.numeroBO}</td>
-              <td>{data.anoBO}</td>
-              <td>{data.dataHoraChamado}</td>
-              <td>{data.dataHoraEntrada}</td>
-              <td>{data.dataHoraLiberacao}</td>
+              <td>{moment(data.dataHoraChamado).format("DD/MM/YYYY HH:mm")}</td>
+              <td>{getStatus(data.dataHoraEntrada, data.dataHoraLiberacao)}</td>
 
               <td>
                 <Link

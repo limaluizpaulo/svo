@@ -4,26 +4,26 @@ import api from "../../api/server";
 
 /* 
 {
-	"0": {
-		"id": 1,
-		"nome": "João da Silva",
-		"obitoFetal": 0,
-		"rgOuRne": "1234",
-		"cpf": "123.456.789-01",
-		"nomeDoPai": "José da Silva",
-		"nomeDaMae": "Maria da Silva",
-		"naturalidade": "São Paulo",
-		"nacionalidade": "Brasileira",
-		"sexo": "Masculino",
-		"racaCor": "Branca",
-		"dataNascimento": "1998-01-01",
-		"idade": 23,
-		"estadoCivil": "Solteiro",
-		"profissao": "Estudante"
-	}
+  "0": {
+    "id": 1,
+    "nome": "João da Silva",
+    "obitoFetal": 0,
+    "rgOuRne": "1234",
+    "cpf": "123.456.789-01",
+    "nomeDoPai": "José da Silva",
+    "nomeDaMae": "Maria da Silva",
+    "naturalidade": "São Paulo",
+    "nacionalidade": "Brasileira",
+    "sexo": "Masculino",
+    "racaCor": "Branca",
+    "dataNascimento": "1998-01-01",
+    "idade": 23,
+    "estadoCivil": "Solteiro",
+    "profissao": "Estudante"
+  }
 }
 
-*/ 
+*/
 
 interface Falecidos {
   id: string;
@@ -49,7 +49,7 @@ export default function Falecidos() {
 
   async function getData() {
 
-    const result: Falecidos[] = await api(
+    const result = await api(
       `/falecidos`
     );
     setData(result.data);
@@ -108,9 +108,9 @@ export default function Falecidos() {
               <td>{data.idade}</td>
               <td>{data.estadoCivil}</td>
               <td>{data.profissao}</td>
-              
 
-             
+
+
               <td>
                 <Link
                   className="text-decoration-none text-primary"

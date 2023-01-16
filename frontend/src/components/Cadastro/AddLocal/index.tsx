@@ -77,6 +77,8 @@ export default function AddLocal() {
     setHospitalData(data);
   }
 
+
+
   useEffect(() => {
     getHospitais();
   }, []);

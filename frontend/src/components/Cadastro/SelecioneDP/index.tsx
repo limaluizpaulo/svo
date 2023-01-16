@@ -60,7 +60,10 @@ export default function SelecioneDP() {
     numeroDaOcorrencia,
     anoOcorrencia,
     natureza,
-    setNatureza
+    setNatureza,
+    boletim,
+    setBoletim,
+    anoBoletim
   } = useCadastro();
 
   async function getDP() {
@@ -92,11 +95,20 @@ export default function SelecioneDP() {
     getNaturezas();
   }, []);
 
+  useEffect(() => {
+    if (boletim.length === 6) {
+      setBoletim(`${boletim}/${anoBoletim}`)
+    }
+  }, [boletim]);
+
   return (
     <div className="mx-5 px-5">
       <div className="d-flex flex-row flex-wrap justify-content-between">
-        <h3 className="my-4">Protocolo : {protocolo} </h3>
-        <h3 className="my-4">
+        <h3 className="my-4" style={{ color: "#007bff" }
+        }>Protocolo : {protocolo} </h3>
+        <h3 className="my-4"
+          style={{ color: "#222F4D" }}
+        >
           {" "}
           Controle: {numeroDaOcorrencia} / {anoOcorrencia}
         </h3>
@@ -141,6 +153,18 @@ export default function SelecioneDP() {
                 ))}
               </select>
             </div>
+
+            <div className="mb-3">
+              <input
+                type="text"
+                className="form-control"
+                id="boletim"
+                placeholder="Boletim de Ocorrência"
+                value={boletim}
+                onChange={(e) => setBoletim(e.target.value)}
+              />
+            </div>
+
 
             <div className="mb-3">
               <select

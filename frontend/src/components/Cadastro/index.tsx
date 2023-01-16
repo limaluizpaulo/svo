@@ -31,7 +31,7 @@ export default function Cadastro() {
 
   return (
     <div>
-      <CadastroProvider>{selectComponent()}</CadastroProvider>
+      {selectComponent()}
 
       <div className="d-flex justify-content-between">
         <button
