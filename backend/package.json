@@ -1,0 +1,28 @@
+{
+  "name": "svo",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">Sistema de Verificação de Óbitos</h1> <p align=\"center\">   <img alt=\"Version\" src=\"https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000\" />   <a href=\"https://luizpaulo.eng.br\" target=\"_blank\">   </a> </p>",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limaluizpaulo/svo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/limaluizpaulo/svo/issues"
+  },
+  "homepage": "https://github.com/limaluizpaulo/svo#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "nodemon": "^2.0.20",
+    "sqlite3": "^5.1.4"
+  }
+}
