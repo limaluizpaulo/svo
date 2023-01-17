@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/db");
 
-// GET all atendentes
+// GET all users
 router.get("/", (req, res) => {
-  const sql = "SELECT * FROM atendentes";
+  const sql = "SELECT id, email, codigoFuncional, nome, plantao FROM users";
   const params = [];
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -13,14 +13,23 @@ router.get("/", (req, res) => {
     }
     res.json({
       message: "success",
-      data: rows,
+      data: rows.map((row) => {
+        return {
+          id: row.id,
+          email: row.email,
+          codigoFuncional: row.codigoFuncional,
+          nome: row.nome,
+          plantao: row.plantao,
+        };
+      }),
     });
   });
 });
 
 // GET atendente by id
 router.get("/:id", (req, res) => {
-  const sql = "SELECT * FROM atendentes WHERE id = ?";
+  const sql =
+    "SELECT id, email, codigoFuncional, nome, plantao FROM users WHERE id = ?";
   const params = [req.params.id];
   db.get(sql, params, (err, row) => {
     if (err) {
@@ -29,7 +38,13 @@ router.get("/:id", (req, res) => {
     }
     res.json({
       message: "success",
-      data: row,
+      data: {
+        id: row.id,
+        email: row.email,
+        codigoFuncional: row.codigoFuncional,
+        nome: row.nome,
+        plantao: row.plantao,
+      },
     });
   });
 });
@@ -42,7 +57,7 @@ router.post("/", (req, res) => {
     plantao: req.body.plantao,
   };
   const sql =
-    "INSERT INTO atendentes (nome, codigoFuncional, plantao) VALUES (?,?,?)";
+    "INSERT INTO users (nome, codigoFuncional, plantao) VALUES (?,?,?)";
   const params = [data.nome, data.codigoFuncional, data.plantao];
   db.run(sql, params, function (err, result) {
     if (err) {
@@ -65,7 +80,7 @@ router.put("/:id", (req, res) => {
     plantao: req.body.plantao,
   };
   const sql =
-    "UPDATE atendentes SET nome = ?, codigoFuncional = ?, plantao = ? WHERE id = ?";
+    "UPDATE users SET nome = ?, codigoFuncional = ?, plantao = ? WHERE id = ?";
   const params = [data.nome, data.codigoFuncional, data.plantao, req.params.id];
   db.run(sql, params, (err, result) => {
     if (err) {
@@ -82,7 +97,7 @@ router.put("/:id", (req, res) => {
 
 // DELETE an atendente
 router.delete("/:id", (req, res) => {
-  const sql = "DELETE FROM atendentes WHERE id = ?";
+  const sql = "DELETE FROM users WHERE id = ?";
   const params = [req.params.id];
   db.run(sql, params, (err, result) => {
     if (err) {

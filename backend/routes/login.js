@@ -82,7 +82,7 @@ router.post("/", (req, res) => {
   // Verify the user's credentials against the database
 
   db.get(
-    `SELECT id, email, password FROM users WHERE email = '${email}'`,
+    `SELECT id, email, password, nome FROM users WHERE email = '${email}'`,
     (err, results) => {
       if (err) {
         res.status(500).json({ error: err.message });
@@ -114,10 +114,13 @@ router.post("/", (req, res) => {
         );
 
         // Send the token to the user
+        console.log(results.nome);
 
         res.json({
           message: "success",
           token,
+          nome: results.nome,
+          id: results.id,
         });
       });
     }
