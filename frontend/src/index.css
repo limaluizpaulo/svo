@@ -9,6 +9,11 @@ body {
   font-size: 0.875rem;
 }
 
+.bg-custom{
+  background-color: #222F4D;
+
+}
+
 #root {
   height: 100%;
 }
@@ -111,7 +116,7 @@ body {
   /* arrumar esse padding*/
   padding: 0;
   font-weight: 500;
-  color: #333;
+  color: #fff;
 }
 
 .sidebar .nav-link .feather {

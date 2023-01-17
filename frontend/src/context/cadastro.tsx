@@ -57,6 +57,21 @@ interface FalecidosData {
     data: [Falecidos]
 }
 
+interface Enderecos {
+    id: number;
+    rua: string;
+    numero: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    complemento: string;
+
+}
+
+interface EnderecosData {
+    data: [Enderecos];
+}
+
 interface CadastroContextData {
     tipoLocal: number;
     setTipoLocal: (tipoLocal: number) => void;
@@ -98,6 +113,8 @@ interface CadastroContextData {
     setOcorrencias: (ocorrencias: Array<Ocorrencias>) => void;
     falecidos: Array<Falecidos>;
     setFalecidos: (falecidos: Array<Falecidos>) => void;
+    enderecos: Array<Enderecos>;
+    setEnderecos: (enderecos: Array<Enderecos>) => void;
     protocolo: number;
     setProtocolo: (protocolo: number) => void;
     ruaFalecido: string;
@@ -137,6 +154,7 @@ const CadastroContext = createContext({} as CadastroContextData);
 
 export function CadastroProvider({ children }: CadastroProviderProps) {
     const [ocorrencias, setOcorrencias] = useState<any>([]);
+    const [enderecos, setEnderecos] = useState<Enderecos[]>([]);
     const [falecidos, setFalecidos] = useState<Falecidos[]>([]);
     const [protocolo, setProtocolo] = useState(0);
     const [numeroDaOcorrencia, setNumeroDaOcorrencia] = useState("");
@@ -145,7 +163,6 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
     const [boletim, setBoletim] = useState("");
     const [anoBoletim, setAnoBoletim] = useState(0);
     const [anoOcorrencia, setAnoOcorrencia] = useState(0);
-
     const [tipoLocal, setTipoLocal] = useState(0);
     const [hospital, setHospital] = useState(0);
     const [delegaciaSelecionada, setDelegaciaSelecionada] = useState("");
@@ -212,6 +229,14 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
         setOcorrencias(data);
     }
 
+    async function getEnderecos() {
+
+        const { data }: EnderecosData = await api(
+            `/enderecos`
+        );
+        setEnderecos(data);
+    }
+
     async function getFalecidos() {
         const { data }: FalecidosData = await api(
             `/falecidos`
@@ -236,6 +261,7 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
     useEffect(() => {
         getOcorrencias();
         getFalecidos();
+        getEnderecos();
     }, []);
 
     useEffect(() => {
@@ -328,6 +354,7 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
                 setBoletim,
                 anoBoletim,
                 falecidos,
+                enderecos,
 
             }}
         >

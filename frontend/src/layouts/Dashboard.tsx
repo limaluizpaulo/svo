@@ -1,8 +1,9 @@
 import { Outlet, useNavigate, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Layout() {
   const navigate = useNavigate();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
 
   function handleLogout() {
     localStorage.removeItem("token");
@@ -21,7 +22,7 @@ export default function Layout() {
       <header className="navbar navbar-light sticky-top bg-light flex-md-nowrap py-2 pe-4 shadow">
         <a
           className="bg-light text-center col-md-3 col-lg-2 me-0 px-3 fs-6 border-none"
-          href="#"
+          href="/"
         >
           <img
             className="p-1"
@@ -32,13 +33,14 @@ export default function Layout() {
           />
         </a>
         <button
-          className="navbar-toggler position-absolute d-md-none collapsed"
+          className="navbar-toggler position-absolute collapsed"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#sidebarMenu"
           aria-controls="sidebarMenu"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -58,11 +60,11 @@ export default function Layout() {
         <div className="row h-100">
           <nav
             id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+            className="col-md-3 col-lg-2  bg-custom sidebar collapse"
           >
             <div className="position-sticky pt-3 px-4"
-            
-            style={{overflowY: 'auto', height: '100vh'}}
+
+              style={{ overflowY: 'auto', height: '100vh' }}
 
             >
               <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
@@ -78,7 +80,7 @@ export default function Layout() {
                   ></span>
                 </a>
               </h6>
-              <ul className="nav flex-column mb-2">
+              <ul className="nav flex-column mb-2 ">
                 <li className="nav-item">
                   <Link className="fs-6 nav-link mb-2" to="/">
                     <span
@@ -97,7 +99,7 @@ export default function Layout() {
                     Falecidos
                   </Link>
                 </li>
-              
+
                 <li className="nav-item">
                   <Link className="fs-6 nav-link mb-2" to="/enderecos">
                     <span
@@ -181,7 +183,7 @@ export default function Layout() {
                     Declarações
                   </Link>
                 </li>
-                <li>  
+                <li>
                   <Link className="fs-6 nav-link mb-2" to="/ocorrencias">
                     <span
 
@@ -209,7 +211,7 @@ export default function Layout() {
                     Delegacias
                   </Link>
                 </li>
-             
+
                 <li>
                   <Link className="fs-6 nav-link mb-2" to="/agentes">
                     <span
@@ -236,7 +238,10 @@ export default function Layout() {
             </div>
           </nav>
 
-          <main className="h-100 col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+
+          <main className={`h-100 ms-sm-auto px-md-4 ${sidebarCollapsed ? "col-md-12" : "col-md-9 col-lg-10"}`}>
+
             <Outlet />
           </main>
         </div>

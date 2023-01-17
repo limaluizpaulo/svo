@@ -5,12 +5,9 @@ import "./login.css";
 import api from "../../api/server";
 
 interface StoreLogin {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-  };
+  nome: string;
   token: string;
+  id: string;
 }
 
 export default function Login() {
@@ -32,10 +29,10 @@ export default function Login() {
         });
         if (result) {
           localStorage.setItem("token", result.token);
-          localStorage.setItem("id", result.user.id);
-          localStorage.setItem("name", result.user.name);
-          localStorage.setItem("email", result.user.email);
-          navigate("/");
+          localStorage.setItem("id", result.id);
+          localStorage.setItem("nome", result.nome);
+
+          window.location.reload();
         }
       }
     } catch (e: any) {
@@ -61,7 +58,6 @@ export default function Login() {
             width="195"
             height="72"
           />
-          <h1 className="h4 mt-5 mb-4 fw-normal">Login Form</h1>
 
           <div className="form-floating">
             <input
@@ -72,7 +68,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <label htmlFor="floatingInput">Email address</label>
+            <label htmlFor="floatingInput">Email</label>
           </div>
           <div className="form-floating">
             <input
@@ -83,15 +79,15 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <label htmlFor="floatingPassword">Password</label>
+            <label htmlFor="floatingPassword">Senha</label>
           </div>
           <button className="w-100 mt-4 btn btn-primary" type="submit">
-            Sign in
+            Entrar
           </button>
           <Link to={"/register"}>
-            <p className="mt-2">Register Here</p>
+            <p className="mt-2">Registrar</p>
           </Link>
-          <p className="mt-5 mb-3 text-muted">&copy; 2022, Denpasar, Bali</p>
+          <p className="mt-5 mb-3 text-muted">&copy; 2022, Desenvolvido por <a href="https://luizpaulo.eng.br/" target="_blank" >Luiz Paulo Lima</a> </p>
         </form>
       </main>
     </div>

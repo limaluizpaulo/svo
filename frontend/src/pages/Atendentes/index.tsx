@@ -4,12 +4,12 @@ import api from "../../api/server";
 
 /*
 {
-	"0": {
-		"id": 1,
-		"nome": "Maria",
-		"codigoFuncional": "ATD-02",
-		"plantao": "16:00 - 00:00"
-	}
+  "0": {
+    "id": 1,
+    "nome": "Maria",
+    "codigoFuncional": "ATD-02",
+    "plantao": "16:00 - 00:00"
+  }
 }
 
 */
@@ -21,18 +21,22 @@ interface Atendentes {
   nome: string;
   codigoFuncional: string;
   plantao: string;
+  email: string;
+}
+
+interface AtendentesData {
+  data: [Atendentes];
 }
 
 export default function Atendentes() {
-  const thead = ["#", "Nome", "Código Funcional", "Plantão", "Ações"];
+  const thead = ["#", "Nome", "Email", "Código Funcional", "Plantão", "Ações"];
   const [data, setData] = useState<Atendentes[]>([]);
 
   async function getData() {
-
-    const result: Atendentes[] = await api(
-      `/atendentes`
+    const { data }: AtendentesData = await api(
+      `/users`
     );
-    setData(result.data);
+    setData(data);
   }
 
   useEffect(() => {
@@ -75,6 +79,7 @@ export default function Atendentes() {
             <tr key={data.id}>
               <th scope="row">{index + 1}</th>
               <td>{data.nome}</td>
+              <td>{data.email}</td>
               <td>{data.codigoFuncional}</td>
               <td>{data.plantao}</td>
               <td>

@@ -11,8 +11,8 @@ export default function Home() {
           width="400"
           height="150"
         />
-        <h4 className="mt-5">Olá, {localStorage.getItem("name")}</h4>
-        <h6>{localStorage.getItem("email")}</h6>
+        <h4 className="mt-5">Olá, {localStorage.getItem("nome")} !</h4>
+
       </div>
     </div>
   );

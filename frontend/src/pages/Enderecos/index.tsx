@@ -1,47 +1,31 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/server";
+import { useCadastro } from "../../context/cadastro";
 
 /* 
 {
-	"0": {
-		"id": 1,
-		"rua": "Avenida Paulista",
-		"numero": 1374,
-		"bairro": "Bela Vista",
-		"cidade": "São Paulo",
-		"estado": "SP",
-		"complemento": "Edifício Itália"
-	}
+  "0": {
+    "id": 1,
+    "rua": "Avenida Paulista",
+    "numero": 1374,
+    "bairro": "Bela Vista",
+    "cidade": "São Paulo",
+    "estado": "SP",
+    "complemento": "Edifício Itália"
+  }
 }
-*/ 
+*/
 
-interface Enderecos {
-  id: string;
-  rua: string;
-  numero: string;
-  bairro: string;
-  cidade: string;
-  estado: string;
-  complemento: string;
 
-}
 
 export default function Enderecos() {
   const thead = ["#", "Rua", "Número", "Bairro", "Cidade", "Estado", "Complemento", "Ações"];
-  const [data, setData] = useState<Enderecos[]>([]);
+  const { enderecos } = useCadastro()
 
-  async function getData() {
 
-    const result: Enderecos[] = await api(
-      `/enderecos`
-    );
-    setData(result.data);
-  }
 
-  useEffect(() => {
-    getData();
-  }, []);
+
 
   async function deleteData(id: string) {
     await api(`/falecidos/${id}`, {
@@ -51,7 +35,7 @@ export default function Enderecos() {
       },
     });
     alert("Data deleted");
-    await getData();
+    // window.location.reload();
   }
 
   return (
@@ -75,7 +59,7 @@ export default function Enderecos() {
           </tr>
         </thead>
         <tbody>
-          {data.map((data, index) => (
+          {enderecos.map((data, index) => (
             <tr key={data.id}>
               <th scope="row">{index + 1}</th>
               <td>{data.rua}</td>
@@ -84,11 +68,11 @@ export default function Enderecos() {
               <td>{data.cidade}</td>
               <td>{data.estado}</td>
               <td>{data.complemento}</td>
-              
-           
-              
 
-             
+
+
+
+
               <td>
                 <Link
                   className="text-decoration-none text-primary"
