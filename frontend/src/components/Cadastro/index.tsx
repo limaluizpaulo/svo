@@ -1,11 +1,51 @@
 import React from "react";
-import { CadastroProvider } from "../../context/cadastro";
+import { useNavigate } from "react-router-dom";
 import AddFalecido from "./AddFalecido";
 import AddLocal from "./AddLocal";
 import SelecioneDP from "./SelecioneDP";
+import Modal from "../Modal";
+import { useSvo } from "../../context/svo";
 
 export default function Cadastro() {
   const [step, setStep] = React.useState(1);
+
+  const { show, setShow } = useSvo()
+  const [modalProps, setModalProps] = React.useState({
+    id: "modal",
+    title: "Aviso",
+    children: <div>Deseja sair sem salvar?</div>,
+  });
+
+  const navigate = useNavigate();
+
+  const sim = () => {
+    navigate('/ocorrencias')
+  }
+
+  const nao = () => {
+    setShow(false)
+  }
+
+  const handleModal = () => {
+    setShow(true);
+  };
+
+  const button1 = () => {
+    return (<button type="button" className="btn btn-secondary" onClick={nao}>
+      Não
+    </button>)
+
+  }
+
+  const button2 = () => {
+    return (
+      <button type="button" className="btn btn-primary" onClick={sim}>
+        Sim
+      </button>
+    )
+  }
+
+
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -35,16 +75,31 @@ export default function Cadastro() {
 
       <div className="d-flex justify-content-between">
         <button
-          disabled={step === 1}
-          className="btn btn-primary mb-5"
-          onClick={handlePrevStep}
+
+          className=
+          {step !== 1 ? "btn btn-primary mb-5" : "btn btn-danger mb-5"}
+          onClick={step !== 1 ? handlePrevStep : () => handleModal()}
         >
-          Voltar
+          {step !== 1 ? "Voltar" : "Anterior"}
         </button>
         <button className="btn btn-primary mb-5" onClick={handleNextStep}>
           Próximo
         </button>
       </div>
-    </div>
+      {
+        show && (
+          <Modal
+            id={modalProps.id}
+            title={modalProps.title}
+            children={modalProps.children}
+            setShow={setShow}
+            button1={button1}
+            button2={button2}
+            sim={sim}
+            nao={nao}
+          />
+        )
+      }
+    </div >
   );
 }
