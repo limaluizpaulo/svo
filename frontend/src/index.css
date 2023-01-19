@@ -9,8 +9,14 @@ body {
   font-size: 0.875rem;
 }
 
+.btn-primary {
+  color: #fff !important;
+  background-color: #202D4B !important;
+  border-color: #2470dc;
+}
+
 .bg-custom{
-  background-color: #222F4D;
+  background-color: #202D4B;
 
 }
 

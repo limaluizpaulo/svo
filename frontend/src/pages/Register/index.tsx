@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./register.css";
 import api from "../../api/server";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -32,11 +33,11 @@ export default function Register() {
           },
         });
         if (result) {
-          alert("Register success. Please login with your new account.");
+          toast.info("Register success. Please login with your new account.");
           navigate("/login");
         }
       } else {
-        alert("Password not match");
+        toast.info("Password not match");
       }
     }
   }

@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import AddFalecido from "./AddFalecido";
 import AddLocal from "./AddLocal";
 import SelecioneDP from "./SelecioneDP";
+import AddFamiliar from "./AddFamiliar";
 import Modal from "../Modal";
 import { useSvo } from "../../context/svo";
 
 export default function Cadastro() {
   const [step, setStep] = React.useState(1);
 
-  const { show, setShow } = useSvo()
+  const { show, setShow, selectedId, setSelectedId } = useSvo()
   const [modalProps, setModalProps] = React.useState({
     id: "modal",
     title: "Aviso",
@@ -56,22 +57,49 @@ export default function Cadastro() {
     setStep(step - 1);
   };
 
-  function selectComponent() {
+  const handlePrevId = () => {
+    if (selectedId < 2) {
+      return;
+    } else {
+      setSelectedId(selectedId - 1);
+    }
+  };
+
+  const handleNextId = () => {
+    setSelectedId(selectedId + 1);
+  };
+
+  function selectStep() {
     switch (step) {
       case 1:
         return <><SelecioneDP /> <AddLocal /></>;
       case 2:
         return <AddFalecido />;
       case 3:
-        return;
+        return <AddFamiliar />;
       default:
         return 2;
     }
   }
 
   return (
-    <div>
-      {selectComponent()}
+    <>
+
+      <div className="d-flex justify-content-between">
+        <button
+          className="btn btn-primary mb-5"
+          onClick={handlePrevId}
+        >
+          Voltar
+        </button>
+        <button className="btn btn-primary mb-5" onClick={handleNextId}>
+          Próximo
+        </button>
+      </div>
+
+
+
+      {selectStep()}
 
       <div className="d-flex justify-content-between">
         <button
@@ -100,6 +128,6 @@ export default function Cadastro() {
           />
         )
       }
-    </div >
+    </ >
   );
 }

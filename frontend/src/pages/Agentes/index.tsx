@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/server";
+import { toast } from "react-toastify";
+
 
 /*
 
 {
-	"0": {
-		"id": 1,
-		"nome": "João da Silva",
-		"telefone": "11 9999-8888",
-		"plantao": "Diurno"
-	}
+  "0": {
+    "id": 1,
+    "nome": "João da Silva",
+    "telefone": "11 9999-8888",
+    "plantao": "Diurno"
+  }
 }
 
 */
@@ -20,7 +22,7 @@ import api from "../../api/server";
 interface Agentes {
   id: string;
   nome: string;
-  telefone : string;
+  telefone: string;
   plantao: string;
 
 }
@@ -48,7 +50,7 @@ export default function Agentes() {
         Authorization: `Bearer ${localStorage.getItem("token")!}`,
       },
     });
-    alert("Data deleted");
+    toast.info("Data deleted");
     await getData();
   }
 
@@ -80,20 +82,20 @@ export default function Agentes() {
               <td>{data.telefone}</td>
               <td>{data.plantao}</td>
               <td>
-                <Link
-                  className="text-decoration-none text-primary"
-                  to={`/edit-product/${data.id}`}
-                >
-                  Editar
-                </Link>{" "}
-                |{" "}
-                <span
-                  role="button"
-                  className="text-danger"
-                  onClick={() => deleteData(data.id)}
-                >
-                  Deletar
-                </span>
+                <div className=" d-flex justify-content-center
+                ">
+                  <Link
+                    className="btn btn-primary"
+                    to={`/edit-product/${data.id}`}
+                  >
+                    <i className="fas fa-edit"></i>
+                  </Link>{" "}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteData(data.id)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </button></div>
               </td>
             </tr>
           ))}

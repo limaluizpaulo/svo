@@ -39,9 +39,19 @@ router.post("/", (req, res) => {
   const data = {
     distrito: req.body.distrito,
     endereco_id: req.body.endereco_id,
+    telefone1: req.body.telefone1,
+    telefone2: req.body.telefone2,
+    telefone3: req.body.telefone3,
   };
-  const sql = "INSERT INTO delegacias (distrito, endereco_id) VALUES (?,?)";
-  const params = [data.distrito, data.endereco_id];
+  const sql =
+    "INSERT INTO delegacias (distrito, endereco_id, telefone1, telefone2, telefone3) VALUES (?,?,?,?,?)";
+  const params = [
+    data.distrito,
+    data.endereco_id,
+    telefone1,
+    telefone2,
+    telefone3,
+  ];
   db.run(sql, params, function (err, result) {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -60,10 +70,21 @@ router.put("/:id", (req, res) => {
   const data = {
     distrito: req.body.distrito,
     endereco_id: req.body.endereco_id,
+    telefone1: req.body.telefone1,
+    telefone2: req.body.telefone2,
+    telefone3: req.body.telefone3,
   };
   const sql =
-    "UPDATE delegacias SET distrito = ?, endereco_id = ? WHERE id = ?";
-  const params = [data.distrito, data.endereco_id, req.params.id];
+    "UPDATE delegacias SET distrito = ?, endereco_id = ?, telefone1  = ?, telefone2  = ?, telefone3  = ? WHERE id = ?";
+  const params = [
+    data.distrito,
+    data.endereco_id,
+    data.telefone1,
+    data.telefone2,
+    data.telefone3,
+    req.params.id,
+  ];
+
   db.run(sql, params, (err, result) => {
     if (err) {
       res.status(400).json({ error: err.message });

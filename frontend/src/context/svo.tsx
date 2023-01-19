@@ -72,7 +72,7 @@ interface EnderecosData {
     data: [Enderecos];
 }
 
-interface CadastroContextData {
+interface SvoContextData {
     tipoLocal: number;
     setTipoLocal: (tipoLocal: number) => void;
     hospital: number;
@@ -143,16 +143,21 @@ interface CadastroContextData {
     setBoletim: (boletim: string) => void;
     anoBoletim: number;
     setAnoBoletim: (anoBoletim: number) => void;
+    show: boolean;
+    setShow: (show: boolean) => void;
+    selectedId: number;
+    setSelectedId: (seletedId: number) => void;
+
 }
 
 
-interface CadastroProviderProps {
+interface SvoProviderProps {
     children: ReactNode;
 }
 
-const CadastroContext = createContext({} as CadastroContextData);
+const SvoContext = createContext({} as SvoContextData);
 
-export function CadastroProvider({ children }: CadastroProviderProps) {
+export function SvoProvider({ children }: SvoProviderProps) {
     const [ocorrencias, setOcorrencias] = useState<any>([]);
     const [enderecos, setEnderecos] = useState<Enderecos[]>([]);
     const [falecidos, setFalecidos] = useState<Falecidos[]>([]);
@@ -188,8 +193,36 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
     const [estadoFalecido, setEstadoFalecido] = useState("");
     const [cepFalecido, setCepFalecido] = useState("");
     const [complementoFalecido, setComplementoFalecido] = useState("");
+    const [show, setShow] = useState(false);
+    const [selectedId, setSelectedId] = useState(0);
+    const [ocorrenciaSelecionada, setOcorrenciaSelecionada] = useState<Ocorrencias>({} as Ocorrencias);
 
-    async function getEndereço(id: number) {
+    function getOcorrencia(selectedId: number) {
+        const ocorrencia = ocorrencias.find((ocorrencia: any) => ocorrencia.id === selectedId);
+        setOcorrenciaSelecionada(ocorrencia);
+    }
+
+    useEffect(() => {
+        if (selectedId)
+            getOcorrencia(selectedId);
+    }, [selectedId]);
+
+
+
+    useEffect(() => {
+        if (ocorrenciaSelecionada.id) {
+            getEndereçoOcorrencia(Number(ocorrenciaSelecionada.endereco_id));
+            getEndereçoDP(Number(ocorrenciaSelecionada.delegacia_id));
+            //trazer as variaveis de falecido para o contexto
+            //aa funcao getFalecido deve setar as variaveis de falecido
+
+            //getFalecido(Number(ocorrenciaSelecionada.falecido_id));
+        }
+
+    }, [ocorrenciaSelecionada]);
+
+
+    async function getEndereçoOcorrencia(id: number) {
         const { data } = await api(`/enderecos/${id}`);
 
         setRuaOcorrencia(data.rua);
@@ -272,7 +305,7 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
 
     useEffect(() => {
         if (hospital !== 0) {
-            getEndereço(hospital);
+            getEndereçoOcorrencia(hospital);
         }
     }, [hospital]);
 
@@ -289,7 +322,7 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
     }, [tipoLocal]);
 
     return (
-        <CadastroContext.Provider
+        <SvoContext.Provider
             value={{
                 tipoLocal,
                 setTipoLocal,
@@ -355,15 +388,17 @@ export function CadastroProvider({ children }: CadastroProviderProps) {
                 anoBoletim,
                 falecidos,
                 enderecos,
+                show, setShow, selectedId,
+                setSelectedId,
 
             }}
         >
             {children}
-        </CadastroContext.Provider>
+        </SvoContext.Provider>
     );
 }
 
-export function useCadastro() {
-    const context = useContext(CadastroContext);
+export function useSvo() {
+    const context = useContext(SvoContext);
     return context;
 }

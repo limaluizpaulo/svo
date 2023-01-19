@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./login.css";
 import api from "../../api/server";
+import { toast } from "react-toastify";
 
 interface StoreLogin {
   nome: string;
@@ -37,7 +38,7 @@ export default function Login() {
       }
     } catch (e: any) {
       //  Why error here use any? https://stackoverflow.com/questions/69021040/why-catch-clause-variable-type-annotation-must-be-any
-      alert(e.response._data.message);
+      toast.info(e.response._data.message);
     }
   }
 

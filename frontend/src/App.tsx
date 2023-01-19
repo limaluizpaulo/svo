@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import LayoutDashboard from "./layouts/Dashboard";
 import Falecidos from "./pages/Falecidos";
@@ -23,11 +25,11 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cadastro from "./components/Cadastro";
-import { CadastroProvider } from "./context/cadastro";
+import { SvoProvider } from "./context/svo";
 
 function App() {
   return (
-    <CadastroProvider>
+    <SvoProvider>
       <Routes>
         <Route path="/" element={<LayoutDashboard />}>
           <Route index element={<Home />} />
@@ -53,7 +55,8 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Routes>
-    </CadastroProvider>
+      <ToastContainer />
+    </SvoProvider>
   );
 }
 

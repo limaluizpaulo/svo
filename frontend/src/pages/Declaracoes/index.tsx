@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/server";
+import { toast } from "react-toastify";
+import { useSvo } from "../../context/svo";
 
 /*
 {
-	"0": {
-		"id": 1,
-		"numeroControle": "00001",
-		"ano": 2021,
-		"dataEmissao": "2021-01-01",
-		"ocorrencia_id": null,
-		"numeroDO": "3535353501-1"
-	}
+  "0": {
+    "id": 1,
+    "numeroControle": "00001",
+    "ano": 2021,
+    "dataEmissao": "2021-01-01",
+    "ocorrencia_id": null,
+    "numeroDO": "3535353501-1"
+  }
 }
 
 */
@@ -30,6 +32,7 @@ interface Declaracoes {
 export default function Declaracoes() {
   const thead = ["#", "Número de Controle", "Ano", "Data de Emissão", "Ocorrência", "Número da DO", "Ações"];
   const [data, setData] = useState<Declaracoes[]>([]);
+  const { falecidos } = useSvo();
 
   async function getData() {
 
@@ -37,6 +40,11 @@ export default function Declaracoes() {
       `/declaracoes`
     );
     setData(result.data);
+  }
+
+  function getFalecido(id: number) {
+    const falecido = falecidos.find((falecido) => falecido.id === id);
+    return falecido?.nome;
   }
 
   useEffect(() => {
@@ -50,7 +58,7 @@ export default function Declaracoes() {
         Authorization: `Bearer ${localStorage.getItem("token")!}`,
       },
     });
-    alert("Data deleted");
+    toast.info("Data deleted");
     await getData();
   }
 
@@ -81,26 +89,26 @@ export default function Declaracoes() {
               <td>{data.numeroControle}</td>
               <td>{data.ano}</td>
               <td>{data.dataEmissao}</td>
-              <td>{data.ocorrencia_id}</td>
+              <td>{getFalecido(Number(data.ocorrencia_id))}</td>
               <td>{data.numeroDO}</td>
-              
-            
+
+
 
               <td>
-                <Link
-                  className="text-decoration-none text-primary"
-                  to={`/edit-product/${data.id}`}
-                >
-                  Editar
-                </Link>{" "}
-                |{" "}
-                <span
-                  role="button"
-                  className="text-danger"
-                  onClick={() => deleteData(data.id)}
-                >
-                  Deletar
-                </span>
+                <div className=" d-flex justify-content-center
+                ">
+                  <Link
+                    className="btn btn-primary"
+                    to={`/edit-product/${data.id}`}
+                  >
+                    <i className="fas fa-edit"></i>
+                  </Link>{" "}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteData(data.id)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </button></div>
               </td>
             </tr>
           ))}

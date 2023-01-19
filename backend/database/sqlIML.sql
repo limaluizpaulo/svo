@@ -1,5 +1,5 @@
 --
--- Arquivo gerado com SQLiteStudio v3.4.1 em seg. jan. 16 13:54:43 2023
+-- Arquivo gerado com SQLiteStudio v3.4.1 em ter. jan. 17 07:36:49 2023
 --
 -- Codificação de texto usada: UTF-8
 --
@@ -26,21 +26,10 @@ CREATE TABLE IF NOT EXISTS anexos (
     FOREIGN KEY (ocorrencia_id) REFERENCES ocorrencias (id)
 );
 
--- Tabela: atendentes
-DROP TABLE IF EXISTS atendentes;
-CREATE TABLE IF NOT EXISTS atendentes (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome VARCHAR(255),
-    codigoFuncional VARCHAR(50),
-    plantao VARCHAR(50)
-);
-INSERT INTO atendentes (id, nome, codigoFuncional, plantao) VALUES (1, 'Maria', 'ATD-02', '16:00 - 00:00');
-INSERT INTO atendentes (id, nome, codigoFuncional, plantao) VALUES (2, 'Maria', 'ATD-02', '16:00 - 00:00');
-
 -- Tabela: declaracoesObitos
 DROP TABLE IF EXISTS declaracoesObitos;
 CREATE TABLE IF NOT EXISTS declaracoesObitos (id INTEGER PRIMARY KEY AUTOINCREMENT, numeroControle VARCHAR (20), ano INTEGER, dataEmissao VARCHAR (50), ocorrencia_id INTEGER, numeroDO VARCHAR (255) UNIQUE, FOREIGN KEY (ocorrencia_id) REFERENCES ocorrencias (id));
-INSERT INTO declaracoesObitos (id, numeroControle, ano, dataEmissao, ocorrencia_id, numeroDO) VALUES (1, '00001', 2021, '2021-01-01', NULL, '3535353501-1');
+INSERT INTO declaracoesObitos (id, numeroControle, ano, dataEmissao, ocorrencia_id, numeroDO) VALUES (1, '00001', 2021, '2021-01-01', 1, '3535353501-1');
 INSERT INTO declaracoesObitos (id, numeroControle, ano, dataEmissao, ocorrencia_id, numeroDO) VALUES (2, '00002', 2021, '2021-01-02', NULL, '3535353502-1');
 INSERT INTO declaracoesObitos (id, numeroControle, ano, dataEmissao, ocorrencia_id, numeroDO) VALUES (3, '00003', 2021, '2021-01-03', NULL, '3535353503-1');
 INSERT INTO declaracoesObitos (id, numeroControle, ano, dataEmissao, ocorrencia_id, numeroDO) VALUES (4, '00004', 2021, '2021-01-04', NULL, '3535353504-1');
@@ -213,8 +202,8 @@ CREATE TABLE IF NOT EXISTS observacoes (
 
 -- Tabela: ocorrencias
 DROP TABLE IF EXISTS ocorrencias;
-CREATE TABLE IF NOT EXISTS ocorrencias (id INTEGER PRIMARY KEY AUTOINCREMENT, numeroControle VARCHAR (20), ano INTEGER, protocolo VARCHAR (20), tipoLocal VARCHAR (50), numeroBO VARCHAR (20), anoBO INTEGER, dataHoraChamado VARCHAR (50), dataHoraEntrada VARCHAR (50), dataHoraLiberacao VARCHAR (50), atendente_id INTEGER, endereco_id INTEGER, delegacia_id INTEGER, natureza VARCHAR (50), falecido_id INTEGER, familiar_id INTEGER, motorista_id INTEGER, agente_id INTEGER, viatura_id INTEGER, escrivao_id INTEGER, medico_id INTEGER, FOREIGN KEY (atendente_id) REFERENCES atendentes (id), FOREIGN KEY (endereco_id) REFERENCES enderecos (id), FOREIGN KEY (delegacia_id) REFERENCES delegacias (id), FOREIGN KEY (falecido_id) REFERENCES falecidos (id), FOREIGN KEY (familiar_id) REFERENCES familiares (id), FOREIGN KEY (motorista_id) REFERENCES motoristas (id), FOREIGN KEY (agente_id) REFERENCES agentes (id), FOREIGN KEY (viatura_id) REFERENCES viaturas (id), FOREIGN KEY (escrivao_id) REFERENCES escrivaes (id), FOREIGN KEY (medico_id) REFERENCES medicos (id));
-INSERT INTO ocorrencias (id, numeroControle, ano, protocolo, tipoLocal, numeroBO, anoBO, dataHoraChamado, dataHoraEntrada, dataHoraLiberacao, atendente_id, endereco_id, delegacia_id, natureza, falecido_id, familiar_id, motorista_id, agente_id, viatura_id, escrivao_id, medico_id) VALUES (1, '0001', 2023, '0001', '1', 'AQ0001', 2023, '16-01-2022', '16-01-2022', '16-01-2022', 1, 1, 1, 'natural', 2, 1, 1, 1, 1, 1, 1);
+CREATE TABLE IF NOT EXISTS ocorrencias (id INTEGER PRIMARY KEY AUTOINCREMENT, numeroControle VARCHAR (20), ano INTEGER, protocolo VARCHAR (20), tipoLocal VARCHAR (50), numeroBO VARCHAR (20), anoBO INTEGER, dataHoraChamado VARCHAR (50), dataHoraEntrada VARCHAR (50), dataHoraLiberacao VARCHAR (50), user_id INTEGER REFERENCES users (id), endereco_id INTEGER, delegacia_id INTEGER, natureza INTEGER REFERENCES naturezas (id), falecido_id INTEGER, familiar_id INTEGER, motorista_id INTEGER, agente_id INTEGER, viatura_id INTEGER, escrivao_id INTEGER, medico_id INTEGER, hospital_id INTEGER REFERENCES hospitais (id), FOREIGN KEY (user_id) REFERENCES users (id), FOREIGN KEY (endereco_id) REFERENCES enderecos (id), FOREIGN KEY (delegacia_id) REFERENCES delegacias (id), FOREIGN KEY (falecido_id) REFERENCES falecidos (id), FOREIGN KEY (familiar_id) REFERENCES familiares (id), FOREIGN KEY (motorista_id) REFERENCES motoristas (id), FOREIGN KEY (agente_id) REFERENCES agentes (id), FOREIGN KEY (viatura_id) REFERENCES viaturas (id), FOREIGN KEY (escrivao_id) REFERENCES escrivaes (id), FOREIGN KEY (medico_id) REFERENCES medicos (id));
+INSERT INTO ocorrencias (id, numeroControle, ano, protocolo, tipoLocal, numeroBO, anoBO, dataHoraChamado, dataHoraEntrada, dataHoraLiberacao, user_id, endereco_id, delegacia_id, natureza, falecido_id, familiar_id, motorista_id, agente_id, viatura_id, escrivao_id, medico_id, hospital_id) VALUES (1, '0001', 2023, '0001', '1', 'AQ0001', 2023, '2023-01-16T01:02', '2023-01-16T01:02', '2023-01-16T01:02', 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- Tabela: registros
 DROP TABLE IF EXISTS registros;
@@ -237,15 +226,9 @@ INSERT INTO tipos (id, nome) VALUES (6, 'Aldeia Indigena');
 
 -- Tabela: users
 DROP TABLE IF EXISTS users;
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY,
-    email TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-INSERT INTO users (id, email, password, created_at, updated_at) VALUES (1, 'admin@admin.com', ' $2a$12$Zufw3P1uokwGbvGtQqA7I..Mtd2WNF6TJM5aiGDGL6v6aTXMCfs2q', '2023-01-10 07:18:07', '2023-01-10 07:18:07');
-INSERT INTO users (id, email, password, created_at, updated_at) VALUES (2, 'luiz@admin.com', '$2b$10$wfIQ0W2lAVFyHnDhdGUTZ.Vg2Jdvc4PIpu8wgCmnuQY0WiW4e3mB2', '2023-01-14 06:46:16', '2023-01-14 06:46:16');
+CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, nome VARCHAR (255), codigoFuncional VARCHAR (50), plantao VARCHAR (50));
+INSERT INTO users (id, email, password, created_at, updated_at, nome, codigoFuncional, plantao) VALUES (1, 'admin@admin.com', ' $2a$12$Zufw3P1uokwGbvGtQqA7I..Mtd2WNF6TJM5aiGDGL6v6aTXMCfs2q', '2023-01-10 07:18:07', '2023-01-10 07:18:07', 'Admin', '1', '2');
+INSERT INTO users (id, email, password, created_at, updated_at, nome, codigoFuncional, plantao) VALUES (2, 'luiz@admin.com', '$2b$10$wfIQ0W2lAVFyHnDhdGUTZ.Vg2Jdvc4PIpu8wgCmnuQY0WiW4e3mB2', '2023-01-14 06:46:16', '2023-01-14 06:46:16', 'Luiz Paulo', '48093', '1');
 
 -- Tabela: viaturas
 DROP TABLE IF EXISTS viaturas;

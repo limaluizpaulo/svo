@@ -1,6 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
 import api from "../../api/server";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 interface Category {
   tags: string;
@@ -51,7 +53,8 @@ export default function AddProduct() {
             Authorization: `Bearer ${localStorage.getItem("token")!}`,
           },
         });
-        alert("Success add product");
+        toast.success("Success add product");
+
         navigate("/product");
       }
     } catch (e: any) {

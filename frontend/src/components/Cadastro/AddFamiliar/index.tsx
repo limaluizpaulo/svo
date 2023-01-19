@@ -20,7 +20,7 @@ interface Falecidos {
   profissao: string;
 }
 
-export default function AddFalecido() {
+export default function AddFamiliar() {
   const navigate = useNavigate();
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
@@ -113,11 +113,11 @@ export default function AddFalecido() {
 
   return (
     <div className="mx-5 px-5">
-      <h4 className="my-5">Falecido</h4>
+      <h4 className="my-5">Familiar</h4>
       <div className="d-flex justify-content-between align-items-center">
         <div className="mb-3 w-100" >
           <label htmlFor="exampleFormControlInput1" className="form-label">
-            Nome do Falecido
+            Nome do Familiar
           </label>
           <input
             type="text"

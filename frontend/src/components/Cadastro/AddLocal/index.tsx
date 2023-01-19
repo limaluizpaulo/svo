@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../../api/server";
-import { useCadastro } from "../../../context/cadastro";
+import { useSvo } from "../../../context/svo";
 
 /* 
 {
@@ -67,7 +67,7 @@ export default function AddLocal() {
     setComplementoOcorrencia,
     dataOcorrencia,
     setDataOcorrencia,
-  } = useCadastro();
+  } = useSvo();
 
   const [tipoData, setTipoData] = useState<Tipos[]>([]);
   const [hospitalData, setHospitalData] = useState<Hospitais[]>([]);

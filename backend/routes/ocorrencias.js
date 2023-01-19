@@ -4,7 +4,10 @@ const db = require("../database/db");
 
 // GET all Ocorrências
 router.get("/", (req, res) => {
-  const sql = "SELECT * FROM ocorrencias";
+  const pagina = req.query.pagina || 1;
+  const itensPorPagina = req.query.itensPorPagina || 100;
+  const offset = (pagina - 1) * itensPorPagina;
+  const sql = `SELECT * FROM ocorrencias LIMIT ${itensPorPagina} OFFSET ${offset}`;
   const params = [];
   db.all(sql, params, (err, rows) => {
     if (err) {

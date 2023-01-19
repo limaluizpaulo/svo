@@ -40,45 +40,11 @@ router.post("/", (req, res) => {
   if (!req.body.nome) {
     errors.push("No nome supplied");
   }
-  if (!req.body.obitoFetal) {
-    errors.push("No obitoFetal supplied");
-  }
-  if (!req.body.rgOuRne) {
-    errors.push("No rgOuRne supplied");
-  }
+
   if (!req.body.cpf) {
     errors.push("No cpf supplied");
   }
-  if (!req.body.nomeDoPai) {
-    errors.push("No nomeDoPai supplied");
-  }
-  if (!req.body.nomeDaMae) {
-    errors.push("No nomeDaMae supplied");
-  }
-  if (!req.body.naturalidade) {
-    errors.push("No naturalidade supplied");
-  }
-  if (!req.body.nacionalidade) {
-    errors.push("No nacionalidade supplied");
-  }
-  if (!req.body.sexo) {
-    errors.push("No sexo supplied");
-  }
-  if (!req.body.racaCor) {
-    errors.push("No racaCor supplied");
-  }
-  if (!req.body.dataNascimento) {
-    errors.push("No dataNascimento supplied");
-  }
-  if (!req.body.idade) {
-    errors.push("No idade supplied");
-  }
-  if (!req.body.estadoCivil) {
-    errors.push("No estadoCivil supplied");
-  }
-  if (!req.body.profissao) {
-    errors.push("No profissao supplied");
-  }
+
   if (errors.length) {
     res.status(400).json({ error: errors.join(",") });
     return;

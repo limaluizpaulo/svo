@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../../api/server";
-import { useCadastro } from "../../../context/cadastro";
+import { useSvo } from "../../../context/svo";
 
 interface DataDelegacias {
   id: string;
@@ -64,7 +64,7 @@ export default function SelecioneDP() {
     boletim,
     setBoletim,
     anoBoletim
-  } = useCadastro();
+  } = useSvo();
 
   async function getDP() {
     const { data }: Delegacias = await api("/delegacias");

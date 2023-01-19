@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/server";
+import { toast } from "react-toastify";
 
 /*
 {
-	"data": [
-		{
-			"id": 1,
-			"nome": "Dr. Maria da Silva",
-			"telefone": "88888-8888",
-			"crm": "23456"
-		},
-		{
-			"id": 2,
-			"nome": "Dr. Maria da Silva",
-			"telefone": "88888-8888",
-			"crm": "23456"
-		}
-	]
+  "data": [
+    {
+      "id": 1,
+      "nome": "Dr. Maria da Silva",
+      "telefone": "88888-8888",
+      "crm": "23456"
+    },
+    {
+      "id": 2,
+      "nome": "Dr. Maria da Silva",
+      "telefone": "88888-8888",
+      "crm": "23456"
+    }
+  ]
 }
 
 */
@@ -27,7 +28,7 @@ import api from "../../api/server";
 interface Medicos {
   id: string;
   nome: string;
-  telefone : string;
+  telefone: string;
   crm: string;
 }
 
@@ -54,7 +55,7 @@ export default function Medicos() {
         Authorization: `Bearer ${localStorage.getItem("token")!}`,
       },
     });
-    alert("Data deleted");
+    toast.info("Data deleted");
     await getData();
   }
 
@@ -86,20 +87,20 @@ export default function Medicos() {
               <td>{data.telefone}</td>
               <td>{data.crm}</td>
               <td>
-                <Link
-                  className="text-decoration-none text-primary"
-                  to={`/edit-product/${data.id}`}
-                >
-                  Editar
-                </Link>{" "}
-                |{" "}
-                <span
-                  role="button"
-                  className="text-danger"
-                  onClick={() => deleteData(data.id)}
-                >
-                  Deletar
-                </span>
+                <div className=" d-flex justify-content-center
+                ">
+                  <Link
+                    className="btn btn-primary"
+                    to={`/edit-product/${data.id}`}
+                  >
+                    <i className="fas fa-edit"></i>
+                  </Link>{" "}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteData(data.id)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </button></div>
               </td>
             </tr>
           ))}

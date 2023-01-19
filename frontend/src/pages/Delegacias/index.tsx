@@ -1,36 +1,37 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/server";
+import { toast } from "react-toastify";
 
 /*
 {
-	"data": [
-		{
-			"id": 1,
-			"distrito": "01DP",
-			"endereco_id": 1
-		},
-		{
-			"id": 2,
-			"distrito": "02DP",
-			"endereco_id": 2
-		},
-		{
-			"id": 3,
-			"distrito": "03DP",
-			"endereco_id": 3
-		},
-		{
-			"id": 4,
-			"distrito": "04DP",
-			"endereco_id": 4
-		},
-		{
-			"id": 5,
-			"distrito": "05DP",
-			"endereco_id": 5
-		}
-	]
+  "data": [
+    {
+      "id": 1,
+      "distrito": "01DP",
+      "endereco_id": 1
+    },
+    {
+      "id": 2,
+      "distrito": "02DP",
+      "endereco_id": 2
+    },
+    {
+      "id": 3,
+      "distrito": "03DP",
+      "endereco_id": 3
+    },
+    {
+      "id": 4,
+      "distrito": "04DP",
+      "endereco_id": 4
+    },
+    {
+      "id": 5,
+      "distrito": "05DP",
+      "endereco_id": 5
+    }
+  ]
 }
 
 */
@@ -41,10 +42,13 @@ interface Delegacias {
   id: string;
   distrito: string;
   endereco_id: string;
+  telefone1: string;
+  telefone2: string;
+  telefone3: string;
 }
 
 export default function Delegacias() {
-  const thead = ["#", "Distrito", "Endereço", "Ações"];
+  const thead = ["#", "Distrito", "Endereço", "Telefone 1", "Telefone 2", "Telefone 3", "Ações"];
   const [data, setData] = useState<Delegacias[]>([]);
 
   async function getData() {
@@ -66,7 +70,7 @@ export default function Delegacias() {
         Authorization: `Bearer ${localStorage.getItem("token")!}`,
       },
     });
-    alert("Data deleted");
+    toast.info("Data deleted");
     await getData();
   }
 
@@ -96,21 +100,24 @@ export default function Delegacias() {
               <th scope="row">{index + 1}</th>
               <td>{data.distrito}</td>
               <td>{data.endereco_id}</td>
+              <td>{data.telefone1}</td>
+              <td>{data.telefone2}</td>
+              <td>{data.telefone3}</td>
               <td>
-                <Link
-                  className="text-decoration-none text-primary"
-                  to={`/edit-product/${data.id}`}
-                >
-                  Editar
-                </Link>{" "}
-                |{" "}
-                <span
-                  role="button"
-                  className="text-danger"
-                  onClick={() => deleteData(data.id)}
-                >
-                  Deletar
-                </span>
+                <div className=" d-flex justify-content-center
+                ">
+                  <Link
+                    className="btn btn-primary"
+                    to={`/edit-product/${data.id}`}
+                  >
+                    <i className="fas fa-edit"></i>
+                  </Link>{" "}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteData(data.id)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </button></div>
               </td>
             </tr>
           ))}

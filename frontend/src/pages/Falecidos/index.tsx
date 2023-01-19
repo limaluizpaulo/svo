@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/server";
+import { toast } from "react-toastify";
 
 /* 
 {
@@ -66,7 +67,7 @@ export default function Falecidos() {
         Authorization: `Bearer ${localStorage.getItem("token")!}`,
       },
     });
-    alert("Data deleted");
+    toast.info("Data deleted");
     await getData();
   }
 
@@ -112,20 +113,20 @@ export default function Falecidos() {
 
 
               <td>
-                <Link
-                  className="text-decoration-none text-primary"
-                  to={`/edit-product/${data.id}`}
-                >
-                  Editar
-                </Link>{" "}
-                |{" "}
-                <span
-                  role="button"
-                  className="text-danger"
-                  onClick={() => deleteData(data.id)}
-                >
-                  Deletar
-                </span>
+                <div className=" d-flex justify-content-center
+                ">
+                  <Link
+                    className="btn btn-primary"
+                    to={`/edit-product/${data.id}`}
+                  >
+                    <i className="fas fa-edit"></i>
+                  </Link>{" "}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteData(data.id)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </button></div>
               </td>
             </tr>
           ))}

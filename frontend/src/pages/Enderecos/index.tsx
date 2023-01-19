@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/server";
-import { useCadastro } from "../../context/cadastro";
+import { useSvo } from "../../context/svo";
+import { toast } from "react-toastify";
 
 /* 
 {
@@ -21,7 +22,7 @@ import { useCadastro } from "../../context/cadastro";
 
 export default function Enderecos() {
   const thead = ["#", "Rua", "Número", "Bairro", "Cidade", "Estado", "Complemento", "Ações"];
-  const { enderecos } = useCadastro()
+  const { enderecos } = useSvo()
 
 
 
@@ -34,7 +35,7 @@ export default function Enderecos() {
         Authorization: `Bearer ${localStorage.getItem("token")!}`,
       },
     });
-    alert("Data deleted");
+    toast.info("Data deleted");
     // window.location.reload();
   }
 
@@ -74,20 +75,20 @@ export default function Enderecos() {
 
 
               <td>
-                <Link
-                  className="text-decoration-none text-primary"
-                  to={`/edit-product/${data.id}`}
-                >
-                  Editar
-                </Link>{" "}
-                |{" "}
-                <span
-                  role="button"
-                  className="text-danger"
-                  onClick={() => deleteData(data.id)}
-                >
-                  Deletar
-                </span>
+                <div className=" d-flex justify-content-center
+                ">
+                  <Link
+                    className="btn btn-primary"
+                    to={`/edit-product/${data.id}`}
+                  >
+                    <i className="fas fa-edit"></i>
+                  </Link>{" "}
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteData(data.id)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </button></div>
               </td>
             </tr>
           ))}
