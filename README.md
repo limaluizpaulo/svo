@@ -6,7 +6,7 @@
 </p>
 
 **Descrição**
-Este é um aplicativo de gerenciamento de obitos de SVO/IML, desenvolvido para ajudar a gerenciar os processos de registro de obitos no Instituto Médico Legal de Guarulhos. O aplicativo permite que os usuários cadastrem informações sobre falecidos, incluindo dados pessoais, endereços e informações sobre familiares. Além disso, o aplicativo permite que os usuários gerenciem informações sobre hospitais, delegacias, viaturas, agentes, motoristas, escrivães e médicos envolvidos no processo de registro de obitos.
+Este é um aplicativo de gerenciamento de obitos de SVO/IML, desenvolvido para ajudar a gerenciar os processos de registro de obitos no Instituto Médico Legal de Guarulhos. O aplicativo permite que os usuários cadastrem informações sobre falecidos, incluindo dados pessoais, endereços e informações sobre familiares. Além disso, o aplicativo permite que os usuários gerenciem informações sobre hospitais, delegacias, viaturas, agentes, motoristas, escrivães e médicos envolvidos no processo de registro de obitos
 
 
 ### :nut_and_bolt: Tecnologias
