@@ -24,6 +24,7 @@ export default function Layout() {
   const add = window.location.pathname === "/add-ocorrencia" ? true : false;
 
   const handlePrevId = () => {
+
     if (selectedId < 2) {
       return;
     } else {
@@ -32,6 +33,7 @@ export default function Layout() {
   };
 
   const handleNextId = () => {
+    // precisa checar o ultimo id com if
     setSelectedId(selectedId + 1);
   };
 
@@ -61,7 +63,11 @@ export default function Layout() {
           aria-label="Toggle navigation"
           onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
         >
-          <span className="navbar-toggler-icon"></span>
+          <span >
+            <i className="fas fa-bars" style={{ color: "#fff", padding: "5px" }}></i>
+
+          </span>
+
         </button>
         <div className="navbar-nav">
 
@@ -80,7 +86,7 @@ export default function Layout() {
                     style={{ color: "#222F4D" }}
                   >
                     {" "}
-                    Controle: {numeroDaOcorrencia} / {anoOcorrencia}
+                    Controle: {` ${("0000" + (selectedId)).slice(-4)} / ${anoOcorrencia} `}
                   </h3>
                 </div>
 

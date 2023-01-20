@@ -131,6 +131,20 @@ interface SvoContextData {
     setComplementoFalecido: (complementoFalecido: string) => void;
     cepFalecido: string;
     setCepFalecido: (cepFalecido: string) => void;
+    ruaFamiliar: string;
+    setRuaFamiliar: (ruaFamiliar: string) => void;
+    numeroFamiliar: string;
+    setNumeroFamiliar: (numeroFamiliar: string) => void;
+    bairroFamiliar: string;
+    setBairroFamiliar: (bairroFamiliar: string) => void;
+    cidadeFamiliar: string;
+    setCidadeFamiliar: (cidadeFamiliar: string) => void;
+    estadoFamiliar: string;
+    setEstadoFamiliar: (estadoFamiliar: string) => void;
+    complementoFamiliar: string;
+    setComplementoFamiliar: (complementoFamiliar: string) => void;
+    cepFamiliar: string;
+    setCepFamiliar: (cepFamiliar: string) => void;
     numeroDaOcorrencia: string;
     setNumeroDaOcorrencia: (numeroDaOcorrencia: string) => void;
     anoOcorrencia: number;
@@ -148,6 +162,7 @@ interface SvoContextData {
     selectedId: number;
     setSelectedId: (seletedId: number) => void;
 
+
 }
 
 
@@ -158,9 +173,15 @@ interface SvoProviderProps {
 const SvoContext = createContext({} as SvoContextData);
 
 export function SvoProvider({ children }: SvoProviderProps) {
+    // objeto com dados da ocorrencia
     const [ocorrencias, setOcorrencias] = useState<any>([]);
+    // objeto com dados do endereço da ocorrencia
     const [enderecos, setEnderecos] = useState<Enderecos[]>([]);
+    // objeto com dados do falecido
     const [falecidos, setFalecidos] = useState<Falecidos[]>([]);
+
+    // dados da ocorrencia
+    // string com o numero do protocolo
     const [protocolo, setProtocolo] = useState(0);
     const [numeroDaOcorrencia, setNumeroDaOcorrencia] = useState("");
     const [dataOcorrencia, setDataOcorrencia] = useState("");
@@ -179,6 +200,8 @@ export function SvoProvider({ children }: SvoProviderProps) {
     const [cidadeOcorrencia, setCidadeOcorrencia] = useState("");
     const [estadoOcorrencia, setEstadoOcorrencia] = useState("");
     const [complementoOcorrencia, setComplementoOcorrencia] = useState("");
+
+    // dados da delegacia
     const [ruaDP, setRuaDP] = useState("");
     const [numeroDP, setNumeroDP] = useState("");
     const [bairroDP, setBairroDP] = useState("");
@@ -186,6 +209,8 @@ export function SvoProvider({ children }: SvoProviderProps) {
     const [estadoDP, setEstadoDP] = useState("");
     const [cepDP, setCepDP] = useState("");
     const [complementoDP, setComplementoDP] = useState("");
+
+    // dados do falecido
     const [ruaFalecido, setRuaFalecido] = useState("");
     const [numeroFalecido, setNumeroFalecido] = useState("");
     const [bairroFalecido, setBairroFalecido] = useState("");
@@ -193,6 +218,17 @@ export function SvoProvider({ children }: SvoProviderProps) {
     const [estadoFalecido, setEstadoFalecido] = useState("");
     const [cepFalecido, setCepFalecido] = useState("");
     const [complementoFalecido, setComplementoFalecido] = useState("");
+
+    // dados do familiar
+    const [ruaFamiliar, setRuaFamiliar] = useState("");
+    const [numeroFamiliar, setNumeroFamiliar] = useState("");
+    const [bairroFamiliar, setBairroFamiliar] = useState("");
+    const [cidadeFamiliar, setCidadeFamiliar] = useState("");
+    const [estadoFamiliar, setEstadoFamiliar] = useState("");
+    const [cepFamiliar, setCepFamiliar] = useState("");
+    const [complementoFamiliar, setComplementoFamiliar] = useState("");
+
+
     const [show, setShow] = useState(false);
     const [selectedId, setSelectedId] = useState(0);
     const [ocorrenciaSelecionada, setOcorrenciaSelecionada] = useState<Ocorrencias>({} as Ocorrencias);
@@ -377,6 +413,20 @@ export function SvoProvider({ children }: SvoProviderProps) {
                 setCepFalecido,
                 complementoFalecido,
                 setComplementoFalecido,
+                ruaFamiliar,
+                setRuaFamiliar,
+                numeroFamiliar,
+                setNumeroFamiliar,
+                bairroFamiliar,
+                setBairroFamiliar,
+                cidadeFamiliar,
+                setCidadeFamiliar,
+                estadoFamiliar,
+                setEstadoFamiliar,
+                cepFamiliar,
+                setCepFamiliar,
+                complementoFamiliar,
+                setComplementoFamiliar,
                 numeroDaOcorrencia,
                 anoOcorrencia,
                 dataOcorrencia,

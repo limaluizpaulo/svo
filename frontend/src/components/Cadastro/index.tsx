@@ -58,6 +58,21 @@ export default function Cadastro() {
     setStep(step - 1);
   };
 
+  const handleWheel = (event: React.WheelEvent<HTMLDivElement>
+  ) => {
+
+    // verifica se o usuário rolou para cima ou para baixo
+    if (event.deltaY > 0) {
+      if (step === 5) return;
+      // avança para a próxima etapa
+      setStep(step + 1);
+    } else {
+      if (step === 1) return;
+      // volta para a etapa anterior
+      setStep(step - 1);
+    }
+  }
+
 
 
   function selectStep() {
@@ -68,6 +83,10 @@ export default function Cadastro() {
         return <AddFalecido />;
       case 3:
         return <AddFamiliar />;
+      case 4:
+        return <h1>Entrada</h1>;
+      case 5:
+        return <h1>Liberação</h1>;
       default:
         return 2;
     }
@@ -75,11 +94,12 @@ export default function Cadastro() {
 
   return (
     <>
+      <div onWheel={handleWheel}>
+        <Abas setStep={setStep} step={step} />
 
-      <Abas setStep={setStep} step={step} />
 
-
-      {selectStep()}
+        {selectStep()}
+      </div>
 
       { /* <div className="d-flex justify-content-between">
         <button

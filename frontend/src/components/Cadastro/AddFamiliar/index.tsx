@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import api from "../../../api/server";
 import { toast } from 'react-toastify';
+import { useSvo } from "../../../context/svo";
 
 interface Familiares {
   nome: string;
@@ -21,6 +22,47 @@ export default function AddFamiliar() {
   const [telefone, setTelefone] = useState("");
   const [celular, setCelular] = useState("");
   const [falecido_id, setFalecido_id] = useState("");
+
+  const { ruaFamiliar,
+    setRuaFamiliar,
+    numeroFamiliar,
+    setNumeroFamiliar,
+    bairroFamiliar,
+    setBairroFamiliar,
+    cidadeFamiliar,
+    setCidadeFamiliar,
+    estadoFamiliar,
+    setEstadoFamiliar,
+    cepFamiliar,
+    setCepFamiliar,
+    complementoFamiliar,
+    setComplementoFamiliar } = useSvo();
+
+
+  async function buscarCepFamiliar(cep: string) {
+    const url = `https://viacep.com.br/ws/${cep}/json/`;
+    const response = await fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "content-type": "application/json;charset=utf-8",
+      },
+    });
+
+    const data = await response.json();
+
+    setRuaFamiliar(data.logradouro);
+    setBairroFamiliar(data.bairro);
+    setCidadeFamiliar(data.localidade);
+    setEstadoFamiliar(data.uf);
+  }
+
+
+  useEffect(() => {
+    if (cepFamiliar.length === 8) {
+      buscarCepFamiliar(cepFamiliar);
+    }
+  }, [cepFamiliar]);
 
 
 
@@ -114,6 +156,90 @@ export default function AddFamiliar() {
           />
         </div>
 
+      </div>
+
+      <hr />
+      <div className="d-flex justify-content-between">
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setCepFamiliar(e.target.value.replace(/\D/g, ""))}
+            value={cepFamiliar}
+            type="text"
+            className="form-control"
+            id="cep"
+            placeholder="CEP"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setRuaFamiliar(e.target.value)}
+            value={ruaFamiliar}
+            type="text"
+            className="form-control"
+            id="rua"
+            placeholder="Rua"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setNumeroFamiliar(e.target.value)}
+            value={numeroFamiliar}
+            type="text"
+            className="form-control"
+            id="numero"
+            placeholder="Numero"
+          />
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-between">
+        <div className="mb-3">
+          <input
+
+            type="text"
+            className="form-control"
+            id="complemento"
+            placeholder="Complemento"
+            value={complementoFamiliar}
+            onChange={(e) => setComplementoFamiliar(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setBairroFamiliar(e.target.value)}
+            value={bairroFamiliar}
+            type="text"
+            className="form-control"
+            id="bairro"
+            placeholder="Bairro"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setCidadeFamiliar(e.target.value)}
+            value={cidadeFamiliar}
+            type="text"
+            className="form-control"
+            id="cidade"
+            placeholder="Cidade"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setEstadoFamiliar(e.target.value)}
+            value={estadoFamiliar}
+            type="text"
+            className="form-control"
+            id="estado"
+            placeholder="Estado"
+          />
+        </div>
       </div>
 
       <div className="mb-3">

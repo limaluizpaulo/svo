@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import api from "../../../api/server";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { useSvo } from "../../../context/svo";
 
 interface Falecidos {
   nome: string;
@@ -36,6 +37,47 @@ export default function AddFalecido() {
   const [estadoCivil, setEstadoCivil] = useState("");
   const [profissao, setProfissao] = useState("");
   const [obitoFetal, setObitoFetal] = useState(false);
+
+  const { ruaFalecido,
+    setRuaFalecido,
+    numeroFalecido,
+    setNumeroFalecido,
+    bairroFalecido,
+    setBairroFalecido,
+    cidadeFalecido,
+    setCidadeFalecido,
+    estadoFalecido,
+    setEstadoFalecido,
+    cepFalecido,
+    setCepFalecido,
+    complementoFalecido,
+    setComplementoFalecido } = useSvo()
+
+  async function buscarCepFalecido(cep: string) {
+    const url = `https://viacep.com.br/ws/${cep}/json/`;
+    const response = await fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "content-type": "application/json;charset=utf-8",
+      },
+    });
+
+    const data = await response.json();
+
+    setRuaFalecido(data.logradouro);
+    setBairroFalecido(data.bairro);
+    setCidadeFalecido(data.localidade);
+    setEstadoFalecido(data.uf);
+  }
+
+
+
+  useEffect(() => {
+    if (cepFalecido.length === 8) {
+      buscarCepFalecido(cepFalecido);
+    }
+  }, [cepFalecido]);
 
 
   useEffect(() => {
@@ -189,7 +231,7 @@ export default function AddFalecido() {
           </label>
           <input
             type="number"
-            disabled
+
             className="form-control"
             id="exampleFormControlInput2"
             value={idade}
@@ -356,6 +398,90 @@ export default function AddFalecido() {
             <option value="indigena">Indígena</option>
             <option value="naoDeclarada">Não Declarada</option>
           </select>
+        </div>
+      </div>
+
+      <hr />
+      <div className="d-flex justify-content-between">
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setCepFalecido(e.target.value.replace(/\D/g, ""))}
+            value={cepFalecido}
+            type="text"
+            className="form-control"
+            id="cep"
+            placeholder="CEP"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setRuaFalecido(e.target.value)}
+            value={ruaFalecido}
+            type="text"
+            className="form-control"
+            id="rua"
+            placeholder="Rua"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setNumeroFalecido(e.target.value)}
+            value={numeroFalecido}
+            type="text"
+            className="form-control"
+            id="numero"
+            placeholder="Numero"
+          />
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-between">
+        <div className="mb-3">
+          <input
+
+            type="text"
+            className="form-control"
+            id="complemento"
+            placeholder="Complemento"
+            value={complementoFalecido}
+            onChange={(e) => setComplementoFalecido(e.target.value)}
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setBairroFalecido(e.target.value)}
+            value={bairroFalecido}
+            type="text"
+            className="form-control"
+            id="bairro"
+            placeholder="Bairro"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setCidadeFalecido(e.target.value)}
+            value={cidadeFalecido}
+            type="text"
+            className="form-control"
+            id="cidade"
+            placeholder="Cidade"
+          />
+        </div>
+        <div className="mb-3">
+          <input
+
+            onChange={(e) => setEstadoFalecido(e.target.value)}
+            value={estadoFalecido}
+            type="text"
+            className="form-control"
+            id="estado"
+            placeholder="Estado"
+          />
         </div>
       </div>
 
