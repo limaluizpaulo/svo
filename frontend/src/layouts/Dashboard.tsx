@@ -1,9 +1,13 @@
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useSvo } from "../context/svo";
 
 export default function Layout() {
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const { selectedId, setSelectedId, protocolo,
+    numeroDaOcorrencia,
+    anoOcorrencia, } = useSvo();
 
   function handleLogout() {
     localStorage.removeItem("token");
@@ -17,8 +21,23 @@ export default function Layout() {
     }
   });
 
+  const add = window.location.pathname === "/add-ocorrencia" ? true : false;
+
+  const handlePrevId = () => {
+    if (selectedId < 2) {
+      return;
+    } else {
+      setSelectedId(selectedId - 1);
+    }
+  };
+
+  const handleNextId = () => {
+    setSelectedId(selectedId + 1);
+  };
+
   return (
     <div className="dashboard-layout">
+
       <header className="navbar navbar-light sticky-top bg-light flex-md-nowrap py-2 pe-4 shadow">
         <a
           className="bg-light text-center col-md-3 col-lg-2 me-0 px-3 fs-6 border-none"
@@ -45,15 +64,50 @@ export default function Layout() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="navbar-nav">
+
           <div className="nav-item text-nowrap">
-            <button
-              className="btn btn-secondary text-white nav-link px-3"
-              onClick={() => handleLogout()}
-            >
-              Sair
-            </button>
+
+
+
+
+            {add && (
+              <div className="d-flex justify-content-between"
+              >
+                <div className="d-flex justify-content-around" style={{ width: "500px" }}>
+                  <h3 style={{ color: "#007bff" }
+                  }>Protocolo : {protocolo} </h3>
+                  <h3
+                    style={{ color: "#222F4D" }}
+                  >
+                    {" "}
+                    Controle: {numeroDaOcorrencia} / {anoOcorrencia}
+                  </h3>
+                </div>
+
+
+                <div className="d-flex justify-content-center">
+                  <button
+                    className="btn btn-primary me-2"
+                    onClick={handlePrevId}
+                  >
+                    <i className="fas fa-arrow-left
+              "></i>
+                  </button>
+                  <button className="btn btn-primary " onClick={handleNextId}>
+
+                    <i className="fas fa-arrow-right"></i>
+
+                  </button>
+                </div>
+              </div>
+
+            )}
+
+
           </div>
         </div>
+
+
       </header>
 
       <div className="container-fluid h-100">
@@ -222,6 +276,13 @@ export default function Layout() {
                     Agentes
                   </Link>
                 </li>
+
+                 /*   <button
+                  className="btn btn-secondary text-white nav-link px-3"
+                  onClick={() => handleLogout()}
+                >
+                  Sair
+                </button>*/
 
 
 

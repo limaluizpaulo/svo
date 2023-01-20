@@ -6,11 +6,12 @@ import SelecioneDP from "./SelecioneDP";
 import AddFamiliar from "./AddFamiliar";
 import Modal from "../Modal";
 import { useSvo } from "../../context/svo";
+import Abas from "./Abas";
 
 export default function Cadastro() {
   const [step, setStep] = React.useState(1);
 
-  const { show, setShow, selectedId, setSelectedId } = useSvo()
+  const { show, setShow } = useSvo()
   const [modalProps, setModalProps] = React.useState({
     id: "modal",
     title: "Aviso",
@@ -57,17 +58,7 @@ export default function Cadastro() {
     setStep(step - 1);
   };
 
-  const handlePrevId = () => {
-    if (selectedId < 2) {
-      return;
-    } else {
-      setSelectedId(selectedId - 1);
-    }
-  };
 
-  const handleNextId = () => {
-    setSelectedId(selectedId + 1);
-  };
 
   function selectStep() {
     switch (step) {
@@ -85,23 +76,12 @@ export default function Cadastro() {
   return (
     <>
 
-      <div className="d-flex justify-content-between">
-        <button
-          className="btn btn-primary mb-5"
-          onClick={handlePrevId}
-        >
-          Voltar
-        </button>
-        <button className="btn btn-primary mb-5" onClick={handleNextId}>
-          Próximo
-        </button>
-      </div>
-
+      <Abas setStep={setStep} step={step} />
 
 
       {selectStep()}
 
-      <div className="d-flex justify-content-between">
+      { /* <div className="d-flex justify-content-between">
         <button
 
           className=
@@ -113,7 +93,7 @@ export default function Cadastro() {
         <button className="btn btn-primary mb-5" onClick={handleNextStep}>
           Próximo
         </button>
-      </div>
+  </div> */}
       {
         show && (
           <Modal

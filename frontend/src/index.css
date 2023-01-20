@@ -155,8 +155,12 @@ body {
 }
 
 .navbar .navbar-toggler {
-  top: 0.25rem;
-  left: 1rem;
+/*  top: 0.25rem;
+  left: 1rem;*/
+  padding: 0.25rem 0.75rem;
+  background-color: #202D4B;
+  color: #fff;
+  margin: 10px;
 }
 
 .navbar .form-control {
@@ -180,4 +184,36 @@ body {
 
 .dashboard-layout {
   height: 90%;
+}
+
+
+.abas-button {
+  background-color: #202D4B;
+  color: #fff;
+  border-radius: 20px 20px 0 0;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 20%;
+}
+
+.aba-button-active {
+  background-color: #2470dc;
+  color: #fff;
+  border-radius: 20px 20px 0 0;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 20%;
+
 }

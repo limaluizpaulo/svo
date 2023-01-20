@@ -113,8 +113,8 @@ export default function AddFalecido() {
 
   return (
     <div className="mx-5 px-5">
-      <h4 className="my-5">Falecido</h4>
-      <div className="d-flex justify-content-between align-items-center">
+
+      <div className="d-flex justify-content-between align-items-center pt-3">
         <div className="mb-3 w-100" >
           <label htmlFor="exampleFormControlInput1" className="form-label">
             Nome do Falecido

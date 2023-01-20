@@ -56,9 +56,6 @@ export default function SelecioneDP() {
     setCepDP,
     complementoDP,
     setComplementoDP,
-    protocolo,
-    numeroDaOcorrencia,
-    anoOcorrencia,
     natureza,
     setNatureza,
     boletim,
@@ -103,18 +100,10 @@ export default function SelecioneDP() {
 
   return (
     <div className="mx-5 px-5">
-      <div className="d-flex flex-row flex-wrap justify-content-between">
-        <h3 className="my-4" style={{ color: "#007bff" }
-        }>Protocolo : {protocolo} </h3>
-        <h3 className="my-4"
-          style={{ color: "#222F4D" }}
-        >
-          {" "}
-          Controle: {numeroDaOcorrencia} / {anoOcorrencia}
-        </h3>
-      </div>
 
-      <div className="d-flex justify-content-between">
+
+      <div className="d-flex justify-content-between my-4">
+
         <div className="mb-3">
           <select
             id="dpSelect"

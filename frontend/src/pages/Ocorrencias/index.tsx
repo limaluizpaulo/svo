@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import Modal from "../../components/Modal";
 
 export default function Ocorrencias() {
-  const thead = ["Pericia", "Nome", "Chamado", "Status", "Endereço", "BO", "Ações"];
+  const thead = ["IML", "Nome", "Chamado", "Status", "Endereço", "BO", "Ações"];
   const { ocorrencias, falecidos, enderecos, show, setShow } = useSvo()
   const [order, setOrder] = useState("asc");
   const [pagina, setPagina] = useState(1);

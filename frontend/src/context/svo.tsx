@@ -281,7 +281,7 @@ export function SvoProvider({ children }: SvoProviderProps) {
         setProtocolo(ocorrencias.length + 1);
     }
 
-    function getNumeroDaOcorrencia() {
+    function getNovoNumeroDaOcorrencia() {
         // precisa atualizar apos recuperar as informações do banco
         // a informação deve vir do numero da ultima ocorrencia + 1 não do tamanho do array
 
@@ -299,7 +299,7 @@ export function SvoProvider({ children }: SvoProviderProps) {
 
     useEffect(() => {
         getProtocolo();
-        getNumeroDaOcorrencia();
+        getNovoNumeroDaOcorrencia();
 
     }, [ocorrencias]);
 

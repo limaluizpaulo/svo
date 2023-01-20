@@ -118,7 +118,7 @@ export default function AddLocal() {
 
   return (
     <div className="mx-5 px-5">
-      <h4 className="my-4">Informações da Ocorrência</h4>
+      <hr />
 
       <div className="d-flex justify-content-between align-items-center">
         <div className="mb-3">

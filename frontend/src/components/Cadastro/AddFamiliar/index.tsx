@@ -1,80 +1,48 @@
 import { FormEvent, useEffect, useState } from "react";
 import api from "../../../api/server";
-import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
-interface Falecidos {
+interface Familiares {
   nome: string;
-  obitoFetal: boolean;
-  rgOuRne: string;
-  cpf: string;
-  nomeDoPai: string;
-  nomeDaMae: string;
-  naturalidade: string;
-  nacionalidade: string;
-  sexo: string;
-  racaCor: string;
-  dataNascimento: string;
-  idade: number;
-  estadoCivil: string;
-  profissao: string;
+  parentesco: string;
+  rg: string;
+  endereco: string;
+  telefone: string;
+  celular: string;
+  falecido_id: string;
 }
 
 export default function AddFamiliar() {
-  const navigate = useNavigate();
+
   const [nome, setNome] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [rgOuRne, setRgOuRne] = useState("");
-  const [nomeDoPai, setNomeDoPai] = useState("");
-  const [nomeDaMae, setNomeDaMae] = useState("");
-  const [naturalidade, setNaturalidade] = useState("");
-  const [nacionalidade, setNacionalidade] = useState("Brasileira");
-  const [sexo, setSexo] = useState("");
-  const [racaCor, setRacaCor] = useState("naoDeclarada");
-  const [dataNascimento, setDataNascimento] = useState("");
-  const [idade, setIdade] = useState(0);
-  const [estadoCivil, setEstadoCivil] = useState("");
-  const [profissao, setProfissao] = useState("");
-  const [obitoFetal, setObitoFetal] = useState(false);
+  const [parentesco, setParentesco] = useState("");
+  const [rg, setRg] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [celular, setCelular] = useState("");
+  const [falecido_id, setFalecido_id] = useState("");
 
-
-  useEffect(() => {
-    if (dataNascimento) {
-      const data = new Date(dataNascimento);
-      const idade = new Date().getFullYear() - data.getFullYear();
-      setIdade(idade);
-    }
-  }, [dataNascimento]);
 
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     try {
-      if (nome && cpf) {
-        const dados: Falecidos = {
+      if (nome) {
+        const dados: Familiares = {
           nome,
-          cpf,
-          rgOuRne,
-          nomeDoPai,
-          nomeDaMae,
-          naturalidade,
-          nacionalidade,
-          sexo,
-          racaCor,
-          dataNascimento,
-          idade,
-          estadoCivil,
-          profissao,
-          obitoFetal,
+          parentesco,
+          rg,
+          endereco,
+          telefone,
+          celular,
+          falecido_id,
         }
-
-
 
 
 
         /* formData.append("atendente", localStorage.getItem("id")!);*/
 
-        const result = await api("/falecidos", {
+        const result = await api("/familiares", {
           method: "POST",
           body: dados,
           headers: {
@@ -84,7 +52,7 @@ export default function AddFamiliar() {
 
 
 
-        toast.success('Falecido cadastrado com sucesso!', {
+        toast.success('Familiar cadastrado com sucesso!', {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -93,7 +61,7 @@ export default function AddFamiliar() {
           draggable: true,
           progress: undefined,
         });
-        navigate("/ocorrencias");
+
       } else {
         toast.error('Preencha os campos obrigatórios!', {
           position: "top-right",
@@ -113,8 +81,9 @@ export default function AddFamiliar() {
 
   return (
     <div className="mx-5 px-5">
-      <h4 className="my-5">Familiar</h4>
-      <div className="d-flex justify-content-between align-items-center">
+
+      <div className="d-flex justify-content-between align-items-center pt-3">
+
         <div className="mb-3 w-100" >
           <label htmlFor="exampleFormControlInput1" className="form-label">
             Nome do Familiar
@@ -129,254 +98,91 @@ export default function AddFamiliar() {
         </div>
 
         <div className="mb-3">
-          <label htmlFor="exampleFormControlInput2" className="form-label">
-            CPF
+          <label
+            htmlFor="exampleFormControlInput3
+          "
+            className="form-label"
+          >
+            Parentesco
           </label>
           <input
             type="text"
             className="form-control"
-            id="exampleFormControlInput2"
-            value={cpf}
-            onChange={(e) => setCpf(e.target.value.replace(/\D/g, ""))}
+            id="exampleFormControlInput3"
+            value={parentesco}
+            onChange={(e) => setParentesco(e.target.value)}
           />
         </div>
-
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Documento
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exampleFormControlInput2"
-            value={rgOuRne}
-            onChange={(e) => setRgOuRne(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="d-flex justify-content-around
-       align-items-center">
-
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Data de Nascimento
-          </label>
-          <input
-            type="date"
-            className="form-control"
-            id="exampleFormControlInput2"
-            value={dataNascimento}
-            onChange={(e) => setDataNascimento(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-3
-        ">
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Idade
-          </label>
-          <input
-            type="number"
-            disabled
-            className="form-control"
-            id="exampleFormControlInput2"
-            value={idade}
-          />
-        </div>
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Naturalidade
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exampleFormControlInput2"
-            value={naturalidade}
-            onChange={(e) => setNaturalidade(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Nacionalidade
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exampleFormControlInput2"
-            value={nacionalidade}
-            onChange={(e) => setNacionalidade(e.target.value)}
-          />
-        </div>
-
 
       </div>
-      <div className="d-flex justify-content-around
-       align-items-center">
-        <div className="mb-3  w-50 p-1">
 
-          <label
-            htmlFor="exampleFormControlInput2
+      <div className="mb-3">
+        <label
+          htmlFor="exampleFormControlInput2
           "
-            className="form-label"
-          >
-            Pai
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exampleFormControlInput2"
-            value={nomeDoPai}
-            onChange={(e) => setNomeDoPai(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-3 w-50" >
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Mãe
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exampleFormControlInput2"
-            value={nomeDaMae}
-            onChange={(e) => setNomeDaMae(e.target.value)}
-          />
-        </div>
+          className="form-label"
+        >
+          Documento
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="exampleFormControlInput2"
+          value={rg}
+          onChange={(e) => setRg(e.target.value)}
+        />
       </div>
 
 
-      <div className="d-flex justify-content-around
-        align-items-center">
-
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput2
+      <div className="mb-3">
+        <label
+          htmlFor="exampleFormControlInput4
           "
-            className="form-label"
-          >
-            Sexo
-          </label>
-          <select
-            className="form-select"
-            aria-label="Default select example"
-            value={sexo}
-            onChange={(e) => setSexo(e.target.value)}
-          >
-            <option defaultValue={""}>Selecionar</option>
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino ">Feminino</option>
-            <option value="Indefinido">Indefinido</option>
-          </select>
-        </div>
+          className="form-label"
+        >
+          Telefone
+        </label>
 
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Estado Civil
-          </label>
-          <select
-            className="form-select"
-            aria-label="Default select example"
-            value={estadoCivil}
-            onChange={(e) => setEstadoCivil(e.target.value)}
-          >
-            <option defaultValue={""}>Selecionar</option>
-            <option value="solteiro">Solteiro</option>
-            <option value="casado">Casado</option>
-            <option value="uniao">União Estável </option>
-            <option value="divorciado">Divorciado</option>
-            <option value="viuvo">Viúvo</option>
-          </select>
-        </div>
-
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Profissão
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="exampleFormControlInput2"
-            value={profissao}
-            onChange={(e) => setProfissao(e.target.value)}
-          />
-        </div>
-
-        <div className="mb-3">
-          <label
-            htmlFor="exampleFormControlInput2
-          "
-            className="form-label"
-          >
-            Raça / Cor
-          </label>
-          <select
-            className="form-select"
-            aria-label="Default select example"
-            value={racaCor}
-            onChange={(e) => setRacaCor(e.target.value)}
-          >
-            <option defaultValue={""}>Selecionar</option>
-            <option value="branca">Branca</option>
-            <option value="preta">Preta</option>
-            <option value="parda">Parda</option>
-            <option value="amarela">Amarela</option>
-            <option value="indigena">Indígena</option>
-            <option value="naoDeclarada">Não Declarada</option>
-          </select>
-        </div>
+        <input
+          type="text"
+          className="form-control"
+          id="exampleFormControlInput4"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
+        />
       </div>
+
+      <div className="mb-3">
+        <label
+          htmlFor="exampleFormControlInput5
+          "
+          className="form-label"
+        >
+          Celular
+        </label>
+
+        <input
+          type="text"
+          className="form-control"
+          id="exampleFormControlInput5"
+          value={celular}
+          onChange={(e) => setCelular(e.target.value)}
+        />
+
+      </div>
+
+
+
+
+
+
+
+
+
 
       <div>
 
-        <label
-          htmlFor="exampleFormControlInput2
-  "
-          style={{ marginRight: "30px" }}
-          className="form-label"
-        >
-          Obito Fetal?
-        </label>
-        <input
 
-          type="checkbox"
-          style={{ width: "20px", height: "20px" }}
-          id="exampleFormControlInput2"
-          checked={obitoFetal}
-          onChange={(e) => setObitoFetal(!obitoFetal)}
-        />
 
       </div>
       <div className="d-flex justify-content-end">
