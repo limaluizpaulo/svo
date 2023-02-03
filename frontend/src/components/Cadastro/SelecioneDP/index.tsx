@@ -105,20 +105,23 @@ export default function SelecioneDP() {
       <div className="d-flex justify-content-between my-4">
 
         <div className="mb-3">
-          <select
-            id="dpSelect"
-            className="form-select"
-            aria-label="Default select example"
-            value={delegaciaSelecionada}
-            onChange={(e) => setDelegaciaSelecionada(e.target.value)}
-          >
-            <option defaultValue={""}>Selecionar Delegacia</option>
-            {delegacias.map((dp) => (
-              <option key={dp.id} value={dp.id}>
-                {dp.distrito}
-              </option>
-            ))}
-          </select>
+          <label className="form-label">
+            Delegacia
+            <select
+              id="dpSelect"
+              className="form-select"
+              aria-label="Default select example"
+              value={delegaciaSelecionada}
+              onChange={(e) => setDelegaciaSelecionada(e.target.value)}
+            >
+              <option defaultValue={""}>Selecionar Delegacia</option>
+              {delegacias.map((dp) => (
+                <option key={dp.id} value={dp.id}>
+                  {dp.distrito}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
 
 
@@ -127,137 +130,62 @@ export default function SelecioneDP() {
         {delegaciaSelecionada !== "" && (
           <>
             <div className="mb-3">
-              <select
-                id="escrivaoSelect"
-                className="form-select"
-                aria-label="Default select example"
-                value={escrivaoSelecionado}
-                onChange={(e) => setEscrivaoSelecionado(e.target.value)}
-              >
-                <option defaultValue={""}>Selecionar Escrivão</option>
-                {escrivaes.map((escrivao) => (
-                  <option key={escrivao.id} value={escrivao.id}>
-                    {escrivao.nome}
-                  </option>
-                ))}
-              </select>
+              <label className="form-label">
+                Escrivão
+                <select
+                  id="escrivaoSelect"
+                  className="form-select"
+                  aria-label="Default select example"
+                  value={escrivaoSelecionado}
+                  onChange={(e) => setEscrivaoSelecionado(e.target.value)}
+                >
+                  <option defaultValue={""}>Selecionar Escrivão</option>
+                  {escrivaes.map((escrivao) => (
+                    <option key={escrivao.id} value={escrivao.id}>
+                      {escrivao.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
 
             <div className="mb-3">
-              <input
-                type="text"
-                className="form-control"
-                id="boletim"
-                placeholder="Boletim de Ocorrência"
-                value={boletim}
-                onChange={(e) => setBoletim(e.target.value)}
-              />
+              <label className="form-label">
+                Boletim de Ocorrência
+                <input
+                  type="text"
+                  className="form-control"
+                  id="boletim"
+                  placeholder="Boletim de Ocorrência"
+                  value={boletim}
+                  onChange={(e) => setBoletim(e.target.value)}
+                />
+              </label>
             </div>
 
 
             <div className="mb-3">
-              <select
-                required
-                id="naturezaSelect"
-                className="form-select"
-                aria-label="Default select example"
-                value={natureza}
-                onChange={(e) => setNatureza(e.target.value)}
-              >
-                <option defaultValue={""}>Selecionar Natureza</option>
-                {naturezas.map((natureza) => (
-                  <option key={natureza.id} value={natureza.id}>
-                    {natureza.natureza}
-                  </option>
-                ))}
-              </select>
+              <label className="form-label">
+                Natureza
+                <select
+                  required
+                  id="naturezaSelect"
+                  className="form-select"
+                  aria-label="Default select example"
+                  value={natureza}
+                  onChange={(e) => setNatureza(e.target.value)}
+                >
+                  <option defaultValue={""}>Selecionar Natureza</option>
+                  {naturezas.map((natureza) => (
+                    <option key={natureza.id} value={natureza.id}>
+                      {natureza.natureza}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
           </>
         )}
-      </div>
-
-      <hr />
-      <div className="d-flex justify-content-between">
-        <div className="mb-3">
-          <input
-            disabled
-            onChange={(e) => setCepDP(e.target.value.replace(/\D/g, ""))}
-            value={cepDP}
-            type="text"
-            className="form-control"
-            id="cep"
-            placeholder="CEP"
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            disabled
-            onChange={(e) => setRuaDP(e.target.value)}
-            value={ruaDP}
-            type="text"
-            className="form-control"
-            id="rua"
-            placeholder="Rua"
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            disabled
-            onChange={(e) => setNumeroDP(e.target.value)}
-            value={numeroDP}
-            type="text"
-            className="form-control"
-            id="numero"
-            placeholder="Numero"
-          />
-        </div>
-      </div>
-
-      <div className="d-flex justify-content-between">
-        <div className="mb-3">
-          <input
-            disabled
-            type="text"
-            className="form-control"
-            id="complemento"
-            placeholder="Complemento"
-            value={complementoDP}
-            onChange={(e) => setComplementoDP(e.target.value)}
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            disabled
-            onChange={(e) => setBairroDP(e.target.value)}
-            value={bairroDP}
-            type="text"
-            className="form-control"
-            id="bairro"
-            placeholder="Bairro"
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            disabled
-            onChange={(e) => setCidadeDP(e.target.value)}
-            value={cidadeDP}
-            type="text"
-            className="form-control"
-            id="cidade"
-            placeholder="Cidade"
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            disabled
-            onChange={(e) => setEstadoDP(e.target.value)}
-            value={estadoDP}
-            type="text"
-            className="form-control"
-            id="estado"
-            placeholder="Estado"
-          />
-        </div>
       </div>
     </div>
   );

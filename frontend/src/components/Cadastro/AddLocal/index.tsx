@@ -122,53 +122,68 @@ export default function AddLocal() {
 
       <div className="d-flex justify-content-between align-items-center">
         <div className="mb-3">
-          <input
-            onChange={(e) => setDataOcorrencia(e.target.value)}
-            value={dataOcorrencia}
-            type="datetime-local"
-            className="form-control"
-            id="dataOcorrencia"
-            placeholder="Data da Ocorrência"
-            required
-          />
+          <label htmlFor="dataOcorrencia" className="form-label">
+            Data da Ocorrência
+            <input
+              onChange={(e) => {
+                setDataOcorrencia(e.target.value);
+              }}
+              value={dataOcorrencia}
+              type="datetime-local"
+              className="form-control"
+              id="dataOcorrencia"
+              placeholder="Data da Ocorrência"
+              required
+            />
+          </label>
         </div>
         <div className="mb-3 col-3">
-          <select
-            id="tipoSelect"
-            className="form-select"
-            aria-label="Default select example"
-            value={tipoLocal}
-            onChange={(e) => setTipoLocal(Number(e.target.value))}
-          >
-            <option defaultValue={0}>Selecionar Tipo de Local</option>
-            {tipoData.map((tipo) => (
-              <option key={tipo.id} value={tipo.id}>
-                {tipo.nome}
-              </option>
-            ))}
-          </select>
-        </div>
-        {tipoLocal === 2 && (
-          <div className="mb-3 col-5">
+          < label htmlFor="tipoSelect" className="form-label">
+            Tipo de Local
             <select
+              id="tipoSelect"
               className="form-select"
-              id="hospitalSelect"
               aria-label="Default select example"
-              value={hospital}
-              onChange={(e) => setHospital(Number(e.target.value))}
+              value={tipoLocal}
+              onChange={(e) => setTipoLocal(Number(e.target.value))}
             >
-              <option defaultValue={""}>Selecionar Hospital</option>
-              {hospitalData.map((hospital) => (
-                <option key={hospital.id} value={hospital.id}>
-                  {hospital.nome}
+              <option defaultValue={0}>Selecionar Tipo de Local</option>
+              {tipoData.map((tipo) => (
+                <option key={tipo.id} value={tipo.id}>
+                  {tipo.nome}
                 </option>
               ))}
             </select>
+          </label>
+        </div>
+        {tipoLocal === 2 && (
+          <div className="mb-3 col-5">
+            <label htmlFor="hospitalSelect" className="form-label">
+              Hospital
+              <select
+                className="form-select"
+                id="hospitalSelect"
+                aria-label="Default select example"
+                value={hospital}
+                onChange={(e) => setHospital(Number(e.target.value))}
+              >
+                <option defaultValue={""}>Selecionar Hospital</option>
+                {hospitalData.map((hospital) => (
+                  <option key={hospital.id} value={hospital.id}>
+                    {hospital.nome}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
         )}
       </div>
 
       <hr />
+
+      <h4>Endereço da Ocorrência
+
+      </h4>
 
       <div className="d-flex justify-content-between align-items-center">
         <div className="mb-3 d-flex">
