@@ -79,6 +79,23 @@ export default function AddFalecido() {
     setProfissao,
   } = useSvo();
 
+  const tiposSexo = [
+
+    {
+      "id": "masculino",
+      "nome": "Masculino"
+    },
+    {
+      "id": "feminino",
+      "nome": "Feminino"
+    },
+    {
+      "id": "indefinido",
+      "nome": "Indefinido"
+    }
+  ]
+
+
   async function buscarCepFalecido(cep: string) {
     const url = `https://viacep.com.br/ws/${cep}/json/`;
     const response = await fetch(url, {
@@ -425,10 +442,12 @@ export default function AddFalecido() {
               value={sexo}
               onChange={(e) => setSexo(e.target.value)}
             >
-              <option defaultValue={""}>Selecionar</option>
-              <option value="Masculino">Masculino</option>
-              <option value="Feminino ">Feminino</option>
-              <option value="Indefinido">Indefinido</option>
+              <option defaultValue={0}>Selecionar</option>
+              {tiposSexo.map((tipo) => (
+                <option key={tipo.id} value={tipo.id}>
+                  {tipo.nome}
+                </option>
+              ))}
             </select>{" "}
           </label>
         </div>

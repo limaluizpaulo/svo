@@ -338,9 +338,33 @@ export function SvoProvider({ children }: SvoProviderProps) {
                 setNacionalidade(documentAi.nacionalidade);
             }
 
+            /*  <option value="Masculino">Masculino</option>
+              <option value="Feminino ">Feminino</option>
+              <option value="Indefinido">Indefinido</option> */
+
             // Sexo
             if (documentAi.Sexo) {
-                setSexo(documentAi.Sexo);
+                switch (documentAi.Sexo) {
+                    case "masculino":
+                        setSexo("masculino");
+                        break;
+                    case "feminino":
+                        setSexo("feminino");
+                        break;
+                    case "indefinido":
+                        setSexo("indefinido");
+                        break;
+                    case "ignorado":
+                        setSexo("indefinido");
+                        break;
+
+
+
+
+
+                }
+
+                console.log("Sexo", sexo)
             }
 
 
@@ -445,17 +469,8 @@ export function SvoProvider({ children }: SvoProviderProps) {
             if (documentAi.Residencia) {
                 // todo - tratar a residencia
                 //setResidencia(documentAi.Residencia);
+
             }
-
-            /*
-
-0	Object { id: 1, natureza: "natural" }
-1	Object { id: 2, natureza: "comunicado" }
-2	Object { id: 3, natureza: "suspeita" }
-3	Object { id: 4, natureza: "homicidio" }
-4	Object { id: 5, natureza: "suicidio" }
-5	Object { id: 6, natureza: "acidente" }
-            */
 
             // Natureza
             if (documentAi.Natureza) {

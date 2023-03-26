@@ -110,21 +110,26 @@ export default function SelecioneDP() {
   }, [boletim]);
 
   return (
-    <div className="mx-5 px-5">
+    <div className="mx-5 px-5 ">
+      <hr />
+      <div className="mb-3 upload">
+        <form onSubmit={handleUpload}>
+
+          <div className="d-flex justify-content-between">
+            <input type="file" onChange={handleFileChange} />
+          </div>
+          <button type="submit">Upload Requisição IML</button>
+        </form>
+
+      </div>
+
 
 
       <div className="d-flex justify-content-between my-4">
 
 
 
-        <div className="mb-3">
-          <form onSubmit={handleUpload}>
-            <div>
-              <input type="file" onChange={handleFileChange} />
-            </div>
-            <button type="submit">Upload Requisição IML</button>
-          </form>
-        </div>
+
 
 
         <div className="mb-3">

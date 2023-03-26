@@ -15,7 +15,7 @@ body {
   border-color: #2470dc;
 }
 
-.bg-custom{
+.bg-custom {
   background-color: #202D4B;
 
 }
@@ -98,8 +98,10 @@ body {
   bottom: 0;
   /* rtl:remove */
   left: 0;
-  z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
+  z-index: 100;
+  /* Behind the navbar */
+  padding: 48px 0 0;
+  /* Height of navbar */
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -115,7 +117,8 @@ body {
   height: calc(100vh - 48px);
   padding-top: 0.5rem;
   overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  overflow-y: auto;
+  /* Scrollable contents if viewport is shorter than content. */
 }
 
 .sidebar .nav-link {
@@ -155,7 +158,7 @@ body {
 }
 
 .navbar .navbar-toggler {
-/*  top: 0.25rem;
+  /*  top: 0.25rem;
   left: 1rem;*/
   padding: 0.25rem 0.75rem;
   background-color: #202D4B;
@@ -187,12 +190,12 @@ body {
 }
 
 .abas {
-/*colocar sempre na parte debaixo da tela centralizado*/
+  /*colocar sempre na parte debaixo da tela centralizado*/
   position: absolute;
   bottom: 0;
   width: 80vw;
   text-align: center;
-  display: inline-block; 
+  display: inline-block;
   cursor: pointer;
 }
 
@@ -256,10 +259,35 @@ input[type="checkbox"]:checked::before {
 .obito-fetal-checkbox {
   background-color: #2470dc;
   padding: 0 10px;
-  color:#fff;
+  color: #fff;
   border-radius: 15px;
   margin: 0 10px;
-  
+
 }
 
+.upload {
+  margin-bottom: 20px;
+  padding: 10px;
+  max-width: 50%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
 
+.upload p {
+  margin: 0;
+}
+
+.upload button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.upload button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
