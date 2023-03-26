@@ -87,6 +87,8 @@ export default function Cadastro() {
         return <h1>Entrada</h1>;
       case 5:
         return <h1>Liberação</h1>;
+      case 6:
+        return <h1>Obito Fetal</h1>;
       default:
         return 2;
     }
@@ -95,10 +97,11 @@ export default function Cadastro() {
   return (
     <>
       <div onWheel={handleWheel}>
-        <Abas setStep={setStep} step={step} />
+
 
 
         {selectStep()}
+        <Abas setStep={setStep} step={step} />
       </div>
 
       { /* <div className="d-flex justify-content-between">

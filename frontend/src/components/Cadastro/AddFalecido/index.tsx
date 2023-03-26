@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import api from "../../../api/server";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { useSvo } from "../../../context/svo";
 
 interface Falecidos {
@@ -23,22 +23,11 @@ interface Falecidos {
 
 export default function AddFalecido() {
   const navigate = useNavigate();
-  const [nome, setNome] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [rgOuRne, setRgOuRne] = useState("");
-  const [nomeDoPai, setNomeDoPai] = useState("");
-  const [nomeDaMae, setNomeDaMae] = useState("");
-  const [naturalidade, setNaturalidade] = useState("");
-  const [nacionalidade, setNacionalidade] = useState("Brasileira");
-  const [sexo, setSexo] = useState("");
-  const [racaCor, setRacaCor] = useState("naoDeclarada");
-  const [dataNascimento, setDataNascimento] = useState("");
-  const [idade, setIdade] = useState(0);
-  const [estadoCivil, setEstadoCivil] = useState("");
-  const [profissao, setProfissao] = useState("");
-  const [obitoFetal, setObitoFetal] = useState(false);
 
-  const { ruaFalecido,
+  const [resideNaOcorrencia, setResideNaOcorrencia] = useState(false);
+
+  const {
+    ruaFalecido,
     setRuaFalecido,
     numeroFalecido,
     setNumeroFalecido,
@@ -51,8 +40,44 @@ export default function AddFalecido() {
     cepFalecido,
     setCepFalecido,
     complementoFalecido,
-    setComplementoFalecido, dataOcorrencia
-  } = useSvo()
+    setComplementoFalecido,
+    dataOcorrencia,
+    cepOcorrencia,
+    ruaOcorrencia,
+    numeroOcorrencia,
+    bairroOcorrencia,
+    cidadeOcorrencia,
+    estadoOcorrencia,
+    complementoOcorrencia,
+    obitoFetal,
+    setObitoFetal,
+    nome,
+    setNome,
+    cpf,
+    setCpf,
+    rgOuRne,
+    setRgOuRne,
+    nomeDoPai,
+    setNomeDoPai,
+    nomeDaMae,
+    setNomeDaMae,
+    naturalidade,
+    setNaturalidade,
+    nacionalidade,
+    setNacionalidade,
+    sexo,
+    setSexo,
+    racaCor,
+    setRacaCor,
+    dataNascimento,
+    setDataNascimento,
+    idade,
+    setIdade,
+    estadoCivil,
+    setEstadoCivil,
+    profissao,
+    setProfissao,
+  } = useSvo();
 
   async function buscarCepFalecido(cep: string) {
     const url = `https://viacep.com.br/ws/${cep}/json/`;
@@ -72,8 +97,6 @@ export default function AddFalecido() {
     setEstadoFalecido(data.uf);
   }
 
-
-
   useEffect(() => {
     if (cepFalecido.length === 8) {
       buscarCepFalecido(cepFalecido);
@@ -83,23 +106,58 @@ export default function AddFalecido() {
   function idadeNodiaDoObito(dataNascimento: Date, dataOcorrencia: Date) {
     const idade = dataOcorrencia.getFullYear() - dataNascimento.getFullYear();
     const mes = dataOcorrencia.getMonth() - dataNascimento.getMonth();
-    if (mes < 0 || (mes === 0 && dataOcorrencia.getDate() < dataNascimento.getDate())) {
-      return (idade - 1);
+    if (
+      mes < 0 ||
+      (mes === 0 && dataOcorrencia.getDate() < dataNascimento.getDate())
+    ) {
+      return idade - 1;
     } else {
-      return (idade);
+      return idade;
     }
   }
-
 
   useEffect(() => {
     if (dataNascimento && dataOcorrencia) {
       const dataNascimentoFormatada = new Date(dataNascimento);
       const dataOcorrenciaFormatada = new Date(dataOcorrencia);
-      const idade = idadeNodiaDoObito(dataNascimentoFormatada, dataOcorrenciaFormatada);
+      const idade = idadeNodiaDoObito(
+        dataNascimentoFormatada,
+        dataOcorrenciaFormatada
+      );
       setIdade(idade);
     }
   }, [dataNascimento]);
 
+  useEffect(() => {
+    if (obitoFetal === true) {
+      setNome("Natimorto");
+      setEstadoCivil("solteiro");
+      setNacionalidade("Brasileira");
+      setNaturalidade("Guarulhos/SP");
+      setProfissao("Sem Profissão");
+      setDataNascimento(dataOcorrencia);
+    }
+  }, [obitoFetal]);
+
+  useEffect(() => {
+    if (resideNaOcorrencia) {
+      setRuaFalecido(ruaOcorrencia);
+      setNumeroFalecido(numeroOcorrencia);
+      setBairroFalecido(bairroOcorrencia);
+      setCidadeFalecido(cidadeOcorrencia);
+      setEstadoFalecido(estadoOcorrencia);
+      setCepFalecido(cepOcorrencia);
+      setComplementoFalecido(complementoOcorrencia);
+    } else {
+      setRuaFalecido("");
+      setNumeroFalecido("");
+      setBairroFalecido("");
+      setCidadeFalecido("");
+      setEstadoFalecido("");
+      setCepFalecido("");
+      setComplementoFalecido("");
+    }
+  }, [resideNaOcorrencia]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -120,11 +178,7 @@ export default function AddFalecido() {
           estadoCivil,
           profissao,
           obitoFetal,
-        }
-
-
-
-
+        };
 
         /* formData.append("atendente", localStorage.getItem("id")!);*/
 
@@ -136,9 +190,7 @@ export default function AddFalecido() {
           },
         });
 
-
-
-        toast.success('Falecido cadastrado com sucesso!', {
+        toast.success("Falecido cadastrado com sucesso!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -149,7 +201,7 @@ export default function AddFalecido() {
         });
         navigate("/ocorrencias");
       } else {
-        toast.error('Preencha os campos obrigatórios!', {
+        toast.error("Preencha os campos obrigatórios!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -158,7 +210,6 @@ export default function AddFalecido() {
           draggable: true,
           progress: undefined,
         });
-
       }
     } catch (e: any) {
       console.log(e.response._data);
@@ -167,53 +218,65 @@ export default function AddFalecido() {
 
   return (
     <div className="mx-5 px-5">
-
-      <div>
-
+      <div className="d-flex jalign-items-center pt-3">
         <label
           htmlFor="exampleFormControlInput2
-"
-          style={{ marginRight: "30px" }}
-          className="form-label"
+        "
+          className="form-label obito-fetal-checkbox"
         >
           Obito Fetal?
         </label>
         <input
-
           type="checkbox"
-          style={{ width: "20px", height: "20px" }}
           id="exampleFormControlInput2"
           checked={obitoFetal}
           onChange={(e) => setObitoFetal(!obitoFetal)}
         />
 
+        <label
+          htmlFor="exampleFormControlInput2
+        "
+          className="form-label obito-fetal-checkbox"
+        >
+          Reside no Local da Ocorrência?
+        </label>
+        <input
+          type="checkbox"
+          id="exampleFormControlInput2"
+          checked={resideNaOcorrencia}
+          onChange={(e) => setResideNaOcorrencia(!resideNaOcorrencia)}
+        />
       </div>
 
       <div className="d-flex justify-content-between align-items-center pt-3">
         <div className="mb-3  w-75 ">
-          <label htmlFor="exampleFormControlInput1" className="form-label  w-75 ">
+          <label
+            htmlFor="exampleFormControlInput1"
+            className="form-label  w-75 "
+          >
             Nome do Falecido
-
             <input
+              disabled={obitoFetal}
               type="text"
               className="form-control"
               id="exampleFormControlInput1"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
-            /> </label>
+            />{" "}
+          </label>
         </div>
 
         <div className="mb-3">
           <label htmlFor="exampleFormControlInput2" className="form-label">
             CPF
-
             <input
               type="text"
               className="form-control"
               id="exampleFormControlInput2"
               value={cpf}
               onChange={(e) => setCpf(e.target.value.replace(/\D/g, ""))}
-            /></label>
+            />
+          </label>
         </div>
 
         <div className="mb-3">
@@ -223,19 +286,20 @@ export default function AddFalecido() {
             className="form-label"
           >
             Documento
-
             <input
               type="text"
               className="form-control"
               id="exampleFormControlInput2"
               value={rgOuRne}
               onChange={(e) => setRgOuRne(e.target.value)}
-            /> </label>
+            />{" "}
+          </label>
         </div>
       </div>
-      <div className="d-flex justify-content-around
-       align-items-center">
-
+      <div
+        className="d-flex justify-content-around
+       align-items-center"
+      >
         <div className="mb-3">
           <label
             htmlFor="exampleFormControlInput2
@@ -243,32 +307,33 @@ export default function AddFalecido() {
             className="form-label"
           >
             Data de Nascimento
-
             <input
               type={obitoFetal ? "datetime-local" : "date"}
               className="form-control"
               id="exampleFormControlInput2"
               value={dataNascimento}
               onChange={(e) => setDataNascimento(e.target.value)}
-            />  </label>
+            />{" "}
+          </label>
         </div>
 
-        <div className="mb-3
-        ">
+        <div
+          className="mb-3
+        "
+        >
           <label
             htmlFor="exampleFormControlInput2
           "
             className="form-label"
           >
             Idade
-
             <input
               type="number"
-
               className="form-control"
               id="exampleFormControlInput2"
               value={idade}
-            /> </label>
+            />{" "}
+          </label>
         </div>
         <div className="mb-3">
           <label
@@ -277,14 +342,14 @@ export default function AddFalecido() {
             className="form-label"
           >
             Naturalidade
-
             <input
               type="text"
               className="form-control"
               id="exampleFormControlInput2"
               value={naturalidade}
               onChange={(e) => setNaturalidade(e.target.value)}
-            />  </label>
+            />{" "}
+          </label>
         </div>
 
         <div className="mb-3">
@@ -294,60 +359,59 @@ export default function AddFalecido() {
             className="form-label"
           >
             Nacionalidade
-
             <input
               type="text"
               className="form-control"
               id="exampleFormControlInput2"
               value={nacionalidade}
               onChange={(e) => setNacionalidade(e.target.value)}
-            />     </label>
+            />{" "}
+          </label>
         </div>
-
-
       </div>
-      <div className="d-flex justify-content-around
-       align-items-center">
+      <div
+        className="d-flex justify-content-around
+       align-items-center"
+      >
         <div className="mb-3  w-50 p-1">
-
           <label
             htmlFor="exampleFormControlInput2
           "
             className="form-label w-100"
           >
             Pai
-
             <input
               type="text"
               className="form-control"
               id="exampleFormControlInput2"
               value={nomeDoPai}
               onChange={(e) => setNomeDoPai(e.target.value)}
-            />  </label>
+            />{" "}
+          </label>
         </div>
 
-        <div className="mb-3 w-50" >
+        <div className="mb-3 w-50">
           <label
             htmlFor="exampleFormControlInput2
           "
             className="form-label w-100"
           >
             Mãe
-
             <input
               type="text"
               className="form-control"
               id="exampleFormControlInput2"
               value={nomeDaMae}
               onChange={(e) => setNomeDaMae(e.target.value)}
-            />  </label>
+            />{" "}
+          </label>
         </div>
       </div>
 
-
-      <div className="d-flex justify-content-around
-        align-items-center">
-
+      <div
+        className="d-flex justify-content-around
+        align-items-center"
+      >
         <div className="mb-3">
           <label
             htmlFor="exampleFormControlInput2
@@ -355,7 +419,6 @@ export default function AddFalecido() {
             className="form-label"
           >
             Sexo
-
             <select
               className="form-select"
               aria-label="Default select example"
@@ -366,7 +429,8 @@ export default function AddFalecido() {
               <option value="Masculino">Masculino</option>
               <option value="Feminino ">Feminino</option>
               <option value="Indefinido">Indefinido</option>
-            </select>       </label>
+            </select>{" "}
+          </label>
         </div>
 
         <div className="mb-3">
@@ -376,7 +440,6 @@ export default function AddFalecido() {
             className="form-label"
           >
             Estado Civil
-
             <select
               className="form-select"
               aria-label="Default select example"
@@ -389,7 +452,8 @@ export default function AddFalecido() {
               <option value="uniao">União Estável </option>
               <option value="divorciado">Divorciado</option>
               <option value="viuvo">Viúvo</option>
-            </select> </label>
+            </select>{" "}
+          </label>
         </div>
 
         <div className="mb-3">
@@ -399,14 +463,14 @@ export default function AddFalecido() {
             className="form-label"
           >
             Profissão
-
             <input
               type="text"
               className="form-control"
               id="exampleFormControlInput2"
               value={profissao}
               onChange={(e) => setProfissao(e.target.value)}
-            /> </label>
+            />{" "}
+          </label>
         </div>
 
         <div className="mb-3">
@@ -416,7 +480,6 @@ export default function AddFalecido() {
             className="form-label"
           >
             Raça / Cor
-
             <select
               className="form-select"
               aria-label="Default select example"
@@ -430,7 +493,8 @@ export default function AddFalecido() {
               <option value="amarela">Amarela</option>
               <option value="indigena">Indígena</option>
               <option value="naoDeclarada">Não Declarada</option>
-            </select> </label>
+            </select>{" "}
+          </label>
         </div>
       </div>
 
@@ -438,7 +502,6 @@ export default function AddFalecido() {
       <div className="d-flex justify-content-between">
         <div className="mb-3">
           <input
-
             onChange={(e) => setCepFalecido(e.target.value.replace(/\D/g, ""))}
             value={cepFalecido}
             type="text"
@@ -449,7 +512,6 @@ export default function AddFalecido() {
         </div>
         <div className="mb-3">
           <input
-
             onChange={(e) => setRuaFalecido(e.target.value)}
             value={ruaFalecido}
             type="text"
@@ -460,7 +522,6 @@ export default function AddFalecido() {
         </div>
         <div className="mb-3">
           <input
-
             onChange={(e) => setNumeroFalecido(e.target.value)}
             value={numeroFalecido}
             type="text"
@@ -474,7 +535,6 @@ export default function AddFalecido() {
       <div className="d-flex justify-content-between">
         <div className="mb-3">
           <input
-
             type="text"
             className="form-control"
             id="complemento"
@@ -485,7 +545,6 @@ export default function AddFalecido() {
         </div>
         <div className="mb-3">
           <input
-
             onChange={(e) => setBairroFalecido(e.target.value)}
             value={bairroFalecido}
             type="text"
@@ -496,7 +555,6 @@ export default function AddFalecido() {
         </div>
         <div className="mb-3">
           <input
-
             onChange={(e) => setCidadeFalecido(e.target.value)}
             value={cidadeFalecido}
             type="text"
@@ -507,7 +565,6 @@ export default function AddFalecido() {
         </div>
         <div className="mb-3">
           <input
-
             onChange={(e) => setEstadoFalecido(e.target.value)}
             value={estadoFalecido}
             type="text"
@@ -518,18 +575,16 @@ export default function AddFalecido() {
         </div>
       </div>
 
-
       <div className="d-flex justify-content-end">
         <button
-
-          onClick={(e) => { handleSubmit(e) }}
+          onClick={(e) => {
+            handleSubmit(e);
+          }}
           className="btn btn-primary mb-5"
-
         >
           Add
         </button>
       </div>
-
     </div>
   );
 }

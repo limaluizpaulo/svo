@@ -36,6 +36,7 @@ const declaracoesObitosRoutes = require("./routes/declaracoesObitos");
 const loginRoutes = require("./routes/login");
 const naturezasRoutes = require("./routes/naturezas");
 const tiposRoutes = require("./routes/tipos");
+const uploadRoutes = require("./routes/upload");
 /*
 /*
 const registrosRoutes = require("./routes/registros");
@@ -59,6 +60,7 @@ app.use("/declaracoes", declaracoesObitosRoutes);
 app.use("/login", loginRoutes);
 app.use("/naturezas", naturezasRoutes);
 app.use("/tipos", tiposRoutes);
+app.use("/upload", uploadRoutes);
 /*
 app.use("/registros", registrosRoutes);
 app.use("/logs", logsRoutes);

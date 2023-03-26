@@ -22,6 +22,7 @@ export default function AddFamiliar() {
   const [telefone, setTelefone] = useState("");
   const [celular, setCelular] = useState("");
   const [falecido_id, setFalecido_id] = useState("");
+  const [resideComOFalecido, setResideComOFalecido] = useState(false);
 
   const { ruaFamiliar,
     setRuaFamiliar,
@@ -36,7 +37,15 @@ export default function AddFamiliar() {
     cepFamiliar,
     setCepFamiliar,
     complementoFamiliar,
-    setComplementoFamiliar } = useSvo();
+    setComplementoFamiliar,
+    cepFalecido,
+    ruaFalecido,
+    numeroFalecido,
+    bairroFalecido,
+    cidadeFalecido,
+    estadoFalecido,
+    complementoFalecido,
+  } = useSvo();
 
 
   async function buscarCepFamiliar(cep: string) {
@@ -63,6 +72,26 @@ export default function AddFamiliar() {
       buscarCepFamiliar(cepFamiliar);
     }
   }, [cepFamiliar]);
+
+  useEffect(() => {
+    if (resideComOFalecido) {
+      setRuaFamiliar(ruaFalecido);
+      setNumeroFamiliar(numeroFalecido);
+      setBairroFamiliar(bairroFalecido);
+      setCidadeFamiliar(cidadeFalecido);
+      setEstadoFamiliar(estadoFalecido);
+      setCepFamiliar(cepFalecido);
+      setComplementoFamiliar(complementoFalecido);
+    } else {
+      setRuaFamiliar("");
+      setNumeroFamiliar("");
+      setBairroFamiliar("");
+      setCidadeFamiliar("");
+      setEstadoFamiliar("");
+      setCepFamiliar("");
+      setComplementoFamiliar("");
+    }
+  }, [resideComOFalecido]);
 
 
 
@@ -123,6 +152,22 @@ export default function AddFamiliar() {
 
   return (
     <div className="mx-5 px-5">
+
+      <div className="d-flex jalign-items-center pt-3">
+        <label
+          htmlFor="exampleFormControlInput2
+        "
+          className="form-label obito-fetal-checkbox"
+        >
+          Reside com o falecido?
+        </label>
+        <input
+          type="checkbox"
+          id="exampleFormControlInput2"
+          checked={resideComOFalecido}
+          onChange={(e) => setResideComOFalecido(!resideComOFalecido)}
+        />
+      </div>
 
       <div className="d-flex justify-content-between align-items-center pt-3">
 

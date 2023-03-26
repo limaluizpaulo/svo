@@ -5,6 +5,7 @@ import {
     useState,
     useEffect,
 } from "react";
+import moment from "moment";
 import api from "../api/server";
 
 interface Ocorrencias {
@@ -50,11 +51,11 @@ interface Falecidos {
 }
 
 interface OcorrenciasData {
-    data: [Ocorrencias]
+    data: [Ocorrencias];
 }
 
 interface FalecidosData {
-    data: [Falecidos]
+    data: [Falecidos];
 }
 
 interface Enderecos {
@@ -65,7 +66,6 @@ interface Enderecos {
     cidade: string;
     estado: string;
     complemento: string;
-
 }
 
 interface EnderecosData {
@@ -161,10 +161,39 @@ interface SvoContextData {
     setShow: (show: boolean) => void;
     selectedId: number;
     setSelectedId: (seletedId: number) => void;
-
-
+    obitoFetal: boolean;
+    setObitoFetal: (obitoFetal: boolean) => void;
+    handleUpload: (file: any) => void;
+    file: any;
+    setFile: (file: any) => void;
+    handleFileChange: (event: any) => void;
+    nome: string;
+    setNome: (nome: string) => void;
+    cpf: string;
+    setCpf: (cpf: string) => void;
+    rgOuRne: string;
+    setRgOuRne: (rgOuRne: string) => void;
+    nomeDoPai: string;
+    setNomeDoPai: (nomeDoPai: string) => void;
+    nomeDaMae: string;
+    setNomeDaMae: (nomeDaMae: string) => void;
+    naturalidade: string;
+    setNaturalidade: (naturalidade: string) => void;
+    nacionalidade: string;
+    setNacionalidade: (nacionalidade: string) => void;
+    sexo: string;
+    setSexo: (sexo: string) => void;
+    racaCor: string;
+    setRacaCor: (racaCor: string) => void;
+    dataNascimento: string;
+    setDataNascimento: (dataNascimento: string) => void;
+    idade: number;
+    setIdade: (idade: number) => void;
+    estadoCivil: string;
+    setEstadoCivil: (estadoCivil: string) => void;
+    profissao: string;
+    setProfissao: (profissao: string) => void;
 }
-
 
 interface SvoProviderProps {
     children: ReactNode;
@@ -179,6 +208,9 @@ export function SvoProvider({ children }: SvoProviderProps) {
     const [enderecos, setEnderecos] = useState<Enderecos[]>([]);
     // objeto com dados do falecido
     const [falecidos, setFalecidos] = useState<Falecidos[]>([]);
+
+    const [file, setFile] = useState<any>(null);
+    const [documentAi, setDocumentAi] = useState<any>(null);
 
     // dados da ocorrencia
     // string com o numero do protocolo
@@ -211,6 +243,21 @@ export function SvoProvider({ children }: SvoProviderProps) {
     const [complementoDP, setComplementoDP] = useState("");
 
     // dados do falecido
+    const [nome, setNome] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [rgOuRne, setRgOuRne] = useState("");
+    const [nomeDoPai, setNomeDoPai] = useState("");
+    const [nomeDaMae, setNomeDaMae] = useState("");
+    const [naturalidade, setNaturalidade] = useState("");
+    const [nacionalidade, setNacionalidade] = useState("Brasileira");
+    const [sexo, setSexo] = useState("");
+    const [racaCor, setRacaCor] = useState("naoDeclarada");
+    const [dataNascimento, setDataNascimento] = useState("");
+    const [idade, setIdade] = useState(0);
+    const [estadoCivil, setEstadoCivil] = useState("");
+    const [profissao, setProfissao] = useState("");
+
+    // endereço do falecido
     const [ruaFalecido, setRuaFalecido] = useState("");
     const [numeroFalecido, setNumeroFalecido] = useState("");
     const [bairroFalecido, setBairroFalecido] = useState("");
@@ -218,6 +265,7 @@ export function SvoProvider({ children }: SvoProviderProps) {
     const [estadoFalecido, setEstadoFalecido] = useState("");
     const [cepFalecido, setCepFalecido] = useState("");
     const [complementoFalecido, setComplementoFalecido] = useState("");
+    const [obitoFetal, setObitoFetal] = useState(false);
 
     // dados do familiar
     const [ruaFamiliar, setRuaFamiliar] = useState("");
@@ -228,22 +276,223 @@ export function SvoProvider({ children }: SvoProviderProps) {
     const [cepFamiliar, setCepFamiliar] = useState("");
     const [complementoFamiliar, setComplementoFamiliar] = useState("");
 
-
     const [show, setShow] = useState(false);
     const [selectedId, setSelectedId] = useState(0);
-    const [ocorrenciaSelecionada, setOcorrenciaSelecionada] = useState<Ocorrencias>({} as Ocorrencias);
+    const [ocorrenciaSelecionada, setOcorrenciaSelecionada] =
+        useState<Ocorrencias>({} as Ocorrencias);
 
     function getOcorrencia(selectedId: number) {
-        const ocorrencia = ocorrencias.find((ocorrencia: any) => ocorrencia.id === selectedId);
+        const ocorrencia = ocorrencias.find(
+            (ocorrencia: any) => ocorrencia.id === selectedId
+        );
         setOcorrenciaSelecionada(ocorrencia);
     }
 
+    function getFormattedDateTime(obj: any) {
+        const datetime = moment(`${obj.Data}T${obj.Hora}`, "DD/MM/YYYYTHH:mm");
+        const formattedDateTime = datetime.format("YYYY-MM-DDTHH:mm");
+        return formattedDateTime;
+    }
+
+    function getFormattedDate(date) {
+        const formattedDate = moment(date, "DD/MM/YYYY").format("YYYY-MM-DD");
+        return formattedDate;
+    }
+
     useEffect(() => {
-        if (selectedId)
-            getOcorrencia(selectedId);
+        if (documentAi !== null) {
+
+
+            // CPF
+            if (documentAi.CPF) {
+                setCpf(documentAi.CPF.replace(/\D/g, ""));
+            }
+
+            // RG
+            if (documentAi.RG) {
+                setRgOuRne(documentAi.RG);
+            }
+
+            // Nome
+            if (documentAi.Nome) {
+                setNome(documentAi.Nome);
+            }
+
+            // Nome do Pai
+            if (documentAi.Pai) {
+                setNomeDoPai(documentAi.Pai);
+            }
+
+            // Nome da Mãe
+            if (documentAi.Mae) {
+                setNomeDaMae(documentAi.Mae);
+            }
+
+            // Naturalidade
+            if (documentAi.naturalidade) {
+                setNaturalidade(documentAi.naturalidade);
+            }
+
+            // Nacionalidade
+            if (documentAi.nacionalidade) {
+                setNacionalidade(documentAi.nacionalidade);
+            }
+
+            // Sexo
+            if (documentAi.Sexo) {
+                setSexo(documentAi.Sexo);
+            }
+
+
+            // Raça/Cor
+            if (documentAi.Pele) {
+
+                switch (documentAi.Pele.toLowerCase()) {
+                    case "branca" || "branco":
+                        setRacaCor("branca");
+                        break;
+                    case "preta" || "preto":
+                        setRacaCor("preta");
+                        break;
+                    case "parda" || "pardo":
+                        setRacaCor("parda");
+                        break;
+                    case "amarela" || "amarelo":
+                        setRacaCor("amarela");
+                        break;
+                    case "indigena" || "indígena":
+                        setRacaCor("indigena");
+                        break;
+                    case "nao declarada" || "não declarada" || "não declarado" || "nao declarado":
+                        setRacaCor("naoDeclarada");
+                        break;
+                }
+            }
+
+            // Data de Nascimento
+            if (documentAi.Nascimento) {
+                setDataNascimento(getFormattedDate(documentAi.Nascimento));
+            }
+
+            // Profissão
+            if (documentAi.profissao) {
+                setProfissao(documentAi.profissao);
+            }
+
+            // Estado Civil
+            if (documentAi.EstCivil) {
+                setEstadoCivil(documentAi.EstCivil);
+            }
+
+
+
+            // Delegacia
+            if (documentAi.DP !== null) {
+                switch (documentAi.DP) {
+                    case "01°" || "01":
+                        setDelegaciaSelecionada("1");
+                        break;
+                    case "04°" || "04":
+                    default:
+                        setDelegaciaSelecionada("4");
+                        break;
+                }
+            }
+
+
+            //Boletim de Ocorrência
+            if (documentAi.BO) {
+                setBoletim(documentAi.BO);
+            }
+
+            //Tipo de Local
+            if (documentAi.tipoLocal) {
+                switch (documentAi.tipoLocal.toLowerCase()) {
+                    case "casa":
+                        setTipoLocal(1);
+                        break;
+                    case "hospital":
+                        setTipoLocal(2);
+                        break;
+                    case "outros" || "outro":
+                        setTipoLocal(3);
+                        break;
+                    case "outros estabelecimentos de saúde":
+                        setTipoLocal(4);
+                    case "via pública" || "via publica":
+                        setTipoLocal(5);
+                    case "aldeia indigena" || "aldeia indígena":
+                        setTipoLocal(6);
+
+                    default:
+                        setTipoLocal(0);
+                        break;
+                }
+            }
+
+            //Data e Hora
+            if (documentAi.Data && documentAi.Hora) {
+                setDataOcorrencia(getFormattedDateTime(documentAi));
+            }
+
+            // Local
+            if (documentAi.Local) {
+                // todo - tratar o local
+                // setLocal(documentAi.Local);
+            }
+
+            // Residencia
+            if (documentAi.Residencia) {
+                // todo - tratar a residencia
+                //setResidencia(documentAi.Residencia);
+            }
+
+            /*
+
+0	Object { id: 1, natureza: "natural" }
+1	Object { id: 2, natureza: "comunicado" }
+2	Object { id: 3, natureza: "suspeita" }
+3	Object { id: 4, natureza: "homicidio" }
+4	Object { id: 5, natureza: "suicidio" }
+5	Object { id: 6, natureza: "acidente" }
+            */
+
+            // Natureza
+            if (documentAi.Natureza) {
+                if (documentAi.Natureza.toLowerCase().includes("natural"))
+                    setNatureza("1");
+
+                if (documentAi.Natureza.toLowerCase().includes("comunicado"))
+                    setNatureza("2");
+
+                if (documentAi.Natureza.toLowerCase().includes("suspeita"))
+                    setNatureza("3");
+
+                if (documentAi.Natureza.toLowerCase().includes("homicidio"))
+
+                    setNatureza("4");
+
+                if (documentAi.Natureza.toLowerCase().includes("suicidio"))
+                    setNatureza("5");
+
+                if (documentAi.Natureza.toLowerCase().includes("acidente"))
+                    setNatureza("6");
+            }
+
+
+
+
+
+
+
+        }
+
+        console.log(documentAi);
+    }, [documentAi]);
+
+    useEffect(() => {
+        if (selectedId) getOcorrencia(selectedId);
     }, [selectedId]);
-
-
 
     useEffect(() => {
         if (ocorrenciaSelecionada.id) {
@@ -254,9 +503,35 @@ export function SvoProvider({ children }: SvoProviderProps) {
 
             //getFalecido(Number(ocorrenciaSelecionada.falecido_id));
         }
-
     }, [ocorrenciaSelecionada]);
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            setFile(event.target.files[0]);
+        }
+    };
+
+    const handleUpload = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (file) {
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                const response = await api("/upload", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")!}`,
+                    },
+                });
+                // alert com o objeto parseado do arquivo
+                setDocumentAi(response);
+            } catch (error) {
+                console.log(error); // handle error
+            }
+        }
+    };
 
     async function getEndereçoOcorrencia(id: number) {
         const { data } = await api(`/enderecos/${id}`);
@@ -299,17 +574,12 @@ export function SvoProvider({ children }: SvoProviderProps) {
     }
 
     async function getEnderecos() {
-
-        const { data }: EnderecosData = await api(
-            `/enderecos`
-        );
+        const { data }: EnderecosData = await api(`/enderecos`);
         setEnderecos(data);
     }
 
     async function getFalecidos() {
-        const { data }: FalecidosData = await api(
-            `/falecidos`
-        );
+        const { data }: FalecidosData = await api(`/falecidos`);
         setFalecidos(data);
     }
 
@@ -320,7 +590,6 @@ export function SvoProvider({ children }: SvoProviderProps) {
     function getNovoNumeroDaOcorrencia() {
         // precisa atualizar apos recuperar as informações do banco
         // a informação deve vir do numero da ultima ocorrencia + 1 não do tamanho do array
-
 
         setNumeroDaOcorrencia(("0000" + (ocorrencias.length + 1)).slice(-4));
         setAnoOcorrencia(Number(new Date().getFullYear().toString().substring(2)));
@@ -336,7 +605,6 @@ export function SvoProvider({ children }: SvoProviderProps) {
     useEffect(() => {
         getProtocolo();
         getNovoNumeroDaOcorrencia();
-
     }, [ocorrencias]);
 
     useEffect(() => {
@@ -438,9 +706,40 @@ export function SvoProvider({ children }: SvoProviderProps) {
                 anoBoletim,
                 falecidos,
                 enderecos,
-                show, setShow, selectedId,
+                show,
+                setShow,
+                selectedId,
                 setSelectedId,
-
+                obitoFetal,
+                setObitoFetal,
+                handleUpload,
+                handleFileChange,
+                nome,
+                setNome,
+                cpf,
+                setCpf,
+                rgOuRne,
+                setRgOuRne,
+                nomeDoPai,
+                setNomeDoPai,
+                nomeDaMae,
+                setNomeDaMae,
+                naturalidade,
+                setNaturalidade,
+                nacionalidade,
+                setNacionalidade,
+                sexo,
+                setSexo,
+                racaCor,
+                setRacaCor,
+                dataNascimento,
+                setDataNascimento,
+                idade,
+                setIdade,
+                estadoCivil,
+                setEstadoCivil,
+                profissao,
+                setProfissao,
             }}
         >
             {children}

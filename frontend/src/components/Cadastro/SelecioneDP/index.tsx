@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import api from "../../../api/server";
 import { useSvo } from "../../../context/svo";
 
+
+
 interface DataDelegacias {
   id: string;
   distrito: string;
@@ -60,8 +62,17 @@ export default function SelecioneDP() {
     setNatureza,
     boletim,
     setBoletim,
-    anoBoletim
+    anoBoletim,
+    handleUpload,
+    handleFileChange,
+
   } = useSvo();
+
+
+
+
+
+
 
   async function getDP() {
     const { data }: Delegacias = await api("/delegacias");
@@ -103,6 +114,18 @@ export default function SelecioneDP() {
 
 
       <div className="d-flex justify-content-between my-4">
+
+
+
+        <div className="mb-3">
+          <form onSubmit={handleUpload}>
+            <div>
+              <input type="file" onChange={handleFileChange} />
+            </div>
+            <button type="submit">Upload Requisição IML</button>
+          </form>
+        </div>
+
 
         <div className="mb-3">
           <label className="form-label">
@@ -151,7 +174,7 @@ export default function SelecioneDP() {
 
             <div className="mb-3">
               <label className="form-label">
-                Boletim de Ocorrência
+                BO
                 <input
                   type="text"
                   className="form-control"
