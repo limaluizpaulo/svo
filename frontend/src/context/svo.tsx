@@ -294,7 +294,7 @@ export function SvoProvider({ children }: SvoProviderProps) {
         return formattedDateTime;
     }
 
-    function getFormattedDate(date) {
+    function getFormattedDate(date : string) {
         const formattedDate = moment(date, "DD/MM/YYYY").format("YYYY-MM-DD");
         return formattedDate;
     }
@@ -304,13 +304,13 @@ export function SvoProvider({ children }: SvoProviderProps) {
 
 
             // CPF
-            if (documentAi.CPF) {
-                setCpf(documentAi.CPF.replace(/\D/g, ""));
+            if (documentAi.CPFFalecido) {
+                setCpf(documentAi.CPFFalecido.replace(/\D/g, ""));
             }
 
             // RG
-            if (documentAi.RG) {
-                setRgOuRne(documentAi.RG);
+            if (documentAi.RGFalecido) {
+                setRgOuRne(documentAi.RGFalecido);
             }
 
             // Nome
@@ -319,23 +319,23 @@ export function SvoProvider({ children }: SvoProviderProps) {
             }
 
             // Nome do Pai
-            if (documentAi.Pai) {
-                setNomeDoPai(documentAi.Pai);
+            if (documentAi.NomePai) {
+                setNomeDoPai(documentAi.NomePai);
             }
 
             // Nome da Mãe
-            if (documentAi.Mae) {
-                setNomeDaMae(documentAi.Mae);
+            if (documentAi.NomeMae) {
+                setNomeDaMae(documentAi.NomeMae);
             }
 
             // Naturalidade
             if (documentAi.naturalidade) {
-                setNaturalidade(documentAi.naturalidade);
+                setNaturalidade(documentAi.Naturalidade);
             }
 
             // Nacionalidade
             if (documentAi.nacionalidade) {
-                setNacionalidade(documentAi.nacionalidade);
+                setNacionalidade(documentAi.Nacionalidade);
             }
 
             /*  <option value="Masculino">Masculino</option>
@@ -369,9 +369,9 @@ export function SvoProvider({ children }: SvoProviderProps) {
 
 
             // Raça/Cor
-            if (documentAi.Pele) {
+            if (documentAi.Cor) {
 
-                switch (documentAi.Pele.toLowerCase()) {
+                switch (documentAi.Cor.toLowerCase()) {
                     case "branca" || "branco":
                         setRacaCor("branca");
                         break;
@@ -394,44 +394,41 @@ export function SvoProvider({ children }: SvoProviderProps) {
             }
 
             // Data de Nascimento
-            if (documentAi.Nascimento) {
-                setDataNascimento(getFormattedDate(documentAi.Nascimento));
+            if (documentAi.DataNascimento) {
+                setDataNascimento(getFormattedDate(documentAi.DataNascimento));
+            }
+
+            // Idade
+            if (documentAi.Idade) {
+                setIdade(documentAi.Idade);
             }
 
             // Profissão
-            if (documentAi.profissao) {
-                setProfissao(documentAi.profissao);
+            if (documentAi.Profissao) {
+                setProfissao(documentAi.Profissao);
             }
 
             // Estado Civil
-            if (documentAi.EstCivil) {
-                setEstadoCivil(documentAi.EstCivil);
+            if (documentAi.EstadoCivil) {
+                setEstadoCivil(documentAi.EstadoCivil);
             }
 
 
 
             // Delegacia
-            if (documentAi.DP !== null) {
-                switch (documentAi.DP) {
-                    case "01°" || "01":
-                        setDelegaciaSelecionada("1");
-                        break;
-                    case "04°" || "04":
-                    default:
-                        setDelegaciaSelecionada("4");
-                        break;
-                }
+            if (documentAi.DistritoPolicial !== null) {
+                    setDelegaciaSelecionada(documentAi.DistritoPolicial);
             }
 
 
             //Boletim de Ocorrência
-            if (documentAi.BO) {
-                setBoletim(documentAi.BO);
+            if (documentAi.BoletimOcorrencia) {
+                setBoletim(documentAi.BoletimOcorrencia);
             }
 
             //Tipo de Local
-            if (documentAi.tipoLocal) {
-                switch (documentAi.tipoLocal.toLowerCase()) {
+            if (documentAi.CujoLocalÉ) {
+                switch (documentAi.CujoLocalÉ.toLowerCase()) {
                     case "casa":
                         setTipoLocal(1);
                         break;
@@ -455,8 +452,8 @@ export function SvoProvider({ children }: SvoProviderProps) {
             }
 
             //Data e Hora
-            if (documentAi.Data && documentAi.Hora) {
-                setDataOcorrencia(getFormattedDateTime(documentAi));
+            if (documentAi.DataOcorrencia) {
+                setDataOcorrencia(getFormattedDateTime(documentAi.DataOcorrencia));
             }
 
             // Local
@@ -466,31 +463,36 @@ export function SvoProvider({ children }: SvoProviderProps) {
             }
 
             // Residencia
-            if (documentAi.Residencia) {
-                // todo - tratar a residencia
-                //setResidencia(documentAi.Residencia);
+            if (documentAi.RuaOcorrencia) {
+               
+                setRuaOcorrencia(documentAi.RuaOcorrencia);
+                setNumeroOcorrencia(documentAi.NumeroOcorrencia);
+                setBairroOcorrencia(documentAi.BairroOcorrencia);
+                setCidadeOcorrencia(documentAi.CidadeOcorrencia);
+                setEstadoOcorrencia(documentAi.EstadoOcorrencia);
+                setCepOcorrencia(documentAi.CepOcorrencia);
 
             }
 
             // Natureza
-            if (documentAi.Natureza) {
-                if (documentAi.Natureza.toLowerCase().includes("natural"))
+            if (documentAi.Naturezas) {
+                if (documentAi.Naturezas.toLowerCase().includes("natural"))
                     setNatureza("1");
 
-                if (documentAi.Natureza.toLowerCase().includes("comunicado"))
+                if (documentAi.Naturezas.toLowerCase().includes("comunicado"))
                     setNatureza("2");
 
-                if (documentAi.Natureza.toLowerCase().includes("suspeita"))
+                if (documentAi.Naturezas.toLowerCase().includes("suspeita"))
                     setNatureza("3");
 
-                if (documentAi.Natureza.toLowerCase().includes("homicidio"))
+                if (documentAi.Naturezas.toLowerCase().includes("homicidio"))
 
                     setNatureza("4");
 
-                if (documentAi.Natureza.toLowerCase().includes("suicidio"))
+                if (documentAi.Naturezas.toLowerCase().includes("suicidio"))
                     setNatureza("5");
 
-                if (documentAi.Natureza.toLowerCase().includes("acidente"))
+                if (documentAi.Naturezas.toLowerCase().includes("acidente"))
                     setNatureza("6");
             }
 
@@ -530,7 +532,7 @@ export function SvoProvider({ children }: SvoProviderProps) {
         event.preventDefault();
         if (file) {
             const formData = new FormData();
-            formData.append("file", file);
+            formData.append("image", file);
 
             try {
                 const response = await api("/upload", {
@@ -541,7 +543,7 @@ export function SvoProvider({ children }: SvoProviderProps) {
                     },
                 });
                 // alert com o objeto parseado do arquivo
-                setDocumentAi(response);
+                setDocumentAi(response.data);
             } catch (error) {
                 console.log(error); // handle error
             }
@@ -551,12 +553,12 @@ export function SvoProvider({ children }: SvoProviderProps) {
     async function getEndereçoOcorrencia(id: number) {
         const { data } = await api(`/enderecos/${id}`);
 
-        setRuaOcorrencia(data.rua);
-        setBairroOcorrencia(data.bairro);
-        setNumeroOcorrencia(data.numero);
-        setCidadeOcorrencia(data.cidade);
-        setEstadoOcorrencia(data.estado);
-        setCepOcorrencia(data.cep);
+        setRuaOcorrencia(data.RuaOcorrencia);
+        setBairroOcorrencia(data.BairroOcorrencia);
+        setNumeroOcorrencia(data.NumeroOcorrencia);
+        setCidadeOcorrencia(data.CidadeOcorrencia);
+        setEstadoOcorrencia(data.EstadoOcorrencia);
+        setCepOcorrencia(data.CepOcorrencia);
     }
 
     async function getEndereçoDP(id: number) {
