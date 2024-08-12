@@ -88,7 +88,7 @@ export default function Login() {
           <Link to={"/register"}>
             <p className="mt-2">Registrar</p>
           </Link>
-          <p className="mt-5 mb-3 text-muted">&copy; 2022, Desenvolvido por <a href="https://luizpaulo.eng.br/" target="_blank" >Luiz Paulo Lima</a> </p>
+          <p className="mt-5 mb-3 text-muted">&copy; 2024, Desenvolvido por <a href="https://luizpaulo.eng.br/" target="_blank" >Luiz Paulo Lima</a> </p>
         </form>
       </main>
     </div>
